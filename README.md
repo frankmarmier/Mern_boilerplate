@@ -32,13 +32,13 @@ Create an empty git repository for your server application, copy the repo url an
 ### @./client
 
 - `npm install` to install all the dependencies.
-- create a `.env` at same level as the `index.js` file, and set the environement variables.
+- create a `.env` at same level as the `package.json` file, and set the environement variables.
 - `npm start` to run the application.
 
 ### @./server
 
 - `npm install` to install all the dependencies.
-- create a `.env` at same level as the `app.js` file, and set the environement variables.
+- create a `.env` at same level as the `package.json` file, and set the environement variables.
 - `npm run dev` to run the application.
 
 ## Environment variables
