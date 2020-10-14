@@ -32,7 +32,7 @@ app.use(
 
 // Test to see if user is logged In before getting into any router.
 app.use(function (req, res, next) {
-  console.log(req.session.currentUser);
+  console.log("User in session =>", req.session.currentUser);
   next();
 });
 
@@ -40,10 +40,8 @@ app.use(function (req, res, next) {
  * Routes
  */
 
-const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 
-app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 
 // 404 Middleware
@@ -58,6 +56,9 @@ app.use((req, res, next) => {
 // You will end up in this middleware
 // next("toto") makes you end up here
 app.use((err, req, res, next) => {
+  if (process.env.NODE_ENV !== "production") {
+    console.error(err);
+  }
   console.log("An error occured");
   res.status(err.status || 500);
   if (!res.headersSent) {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import apiHandler from "../../api/apiHandler";
-import UserContext from "./UserContext";
+import { UserContext } from "./UserContext";
 
 class UserProvider extends Component {
   state = {
@@ -16,7 +16,6 @@ class UserProvider extends Component {
         this.setState({ user: data, isLoggedIn: true, isLoading: false });
       })
       .catch((error) => {
-        console.log(error);
         this.setState({ user: null, isLoggedIn: false, isLoading: false });
       });
   }
