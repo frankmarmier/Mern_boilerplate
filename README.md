@@ -27,6 +27,7 @@ Create an empty git repository for your client application copy the repo url and
 `git add .`  
 `git commit -m "Initial commit"`  
 Create an empty git repository for your server application, copy the repo url and  
+`git remote add origin <your origin>`    
 `git push origin master`
 
 ### @./client
