@@ -12,13 +12,7 @@ class FormSignup extends Component {
   };
 
   handleChange = (event) => {
-    const value =
-      event.target.type === "file"
-        ? event.target.files[0]
-        : event.target.type === "checkbox"
-        ? event.target.checked
-        : event.target.value;
-
+    const value = event.target.value;
     const key = event.target.name;
 
     this.setState({ [key]: value });
@@ -31,7 +25,6 @@ class FormSignup extends Component {
       .signup(this.state)
       .then((data) => {
         this.context.setUser(data);
-        this.props.history.push("/");
       })
       .catch((error) => {
         console.log(error);
@@ -39,12 +32,28 @@ class FormSignup extends Component {
   };
 
   render() {
+    if (this.context.user) {
+      return <Redirect to="/" />;
+    }
+
     return (
-      <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" />
+        <input
+          onChange={this.handleChange}
+          value={this.state.email}
+          type="email"
+          id="email"
+          name="email"
+        />
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" />
+        <input
+          onChange={this.handleChange}
+          value={this.state.password}
+          type="password"
+          id="password"
+          name="password"
+        />
         <button>Submit</button>
       </form>
     );

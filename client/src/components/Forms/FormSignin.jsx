@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { UserContext } from "../Auth/UserContext";
 import { withRouter } from "react-router-dom";
 import apiHandler from "../../api/apiHandler";
@@ -14,14 +13,7 @@ class FormSignin extends Component {
 
   handleChange = (event) => {
     const key = event.target.name;
-
-    // You can test more if you have to handle different sorts of inputs.
-    const value =
-      event.target.type === "file"
-        ? event.target.files[0]
-        : event.target.type === "checkbox"
-        ? event.target.checked
-        : event.target.value;
+    const value = event.target.value;
 
     this.setState({ [key]: value });
   };
@@ -42,6 +34,10 @@ class FormSignin extends Component {
   };
 
   render() {
+    if (this.context.user) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
         <label htmlFor="email">Email</label>

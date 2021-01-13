@@ -21,6 +21,10 @@ import { UserContext } from "./UserContext";
 // export default withUser(YourComponent)
 // ----------------^ your component now has access to the user context defined in UserProvider.jsx.
 
+// This component is not exported as default, so you have to import it
+// this way :
+// import { withUser } from "../relative/path/to/this/file"
+
 export const withUser = (ComponentToPassUserContextTo) => {
   return function (props) {
     return (
