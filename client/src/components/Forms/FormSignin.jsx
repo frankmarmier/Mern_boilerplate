@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { UserContext } from "../Auth/UserContext";
 import { withRouter, Redirect } from "react-router-dom";
 import apiHandler from "../../api/apiHandler";
 import { withUser } from "../Auth/withUser";
+
 class FormSignin extends Component {
   state = {
     email: "",
