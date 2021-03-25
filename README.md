@@ -27,7 +27,7 @@ Create an empty git repository for your client application copy the repo url and
 `git add .`  
 `git commit -m "Initial commit"`  
 Create an empty git repository for your server application, copy the repo url and  
-`git remote add origin <your origin>`    
+`git remote add origin <your origin>`  
 `git push origin master`
 
 ### @./client
@@ -52,6 +52,7 @@ REACT_APP_BACKEND_URL = ???
 
 PORT = ???  
 MONGODB_URI = ???  
-FRONTEND_URL = ???
+FRONTEND_URL = ???  
+SESSION_SECRET = ????  
 
 Enjoy.
