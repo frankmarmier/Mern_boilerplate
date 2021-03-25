@@ -42,7 +42,7 @@ class FormSignup extends Component {
         <input
           onChange={this.handleChange}
           value={this.state.email}
-          type="email"
+          type="email"Redirect
           id="email"
           name="email"
         />
