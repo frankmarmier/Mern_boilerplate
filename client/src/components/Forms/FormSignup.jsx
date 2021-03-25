@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import { UserContext } from "../Auth/UserContext";
 import apiHandler from "../../api/apiHandler";
 
