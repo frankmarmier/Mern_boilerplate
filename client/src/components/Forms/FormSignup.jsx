@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { withRouter, Redirect } from "react-router-dom";
-import { UserContext } from "../Auth/UserContext";
+import { withUser } from "../Auth/withUser";
 import apiHandler from "../../api/apiHandler";
 
 class FormSignup extends Component {
-  static contextType = UserContext;
-
   state = {
     email: "",
     password: "",
@@ -24,7 +22,7 @@ class FormSignup extends Component {
     apiHandler
       .signup(this.state)
       .then((data) => {
-        this.context.setUser(data);
+        this.props.context.setUser(data);
       })
       .catch((error) => {
         console.log(error);
@@ -32,7 +30,7 @@ class FormSignup extends Component {
   };
 
   render() {
-    if (this.context.user) {
+    if (this.props.context.user) {
       return <Redirect to="/" />;
     }
 
@@ -42,7 +40,7 @@ class FormSignup extends Component {
         <input
           onChange={this.handleChange}
           value={this.state.email}
-          type="email"Redirect
+          type="email"
           id="email"
           name="email"
         />
@@ -60,4 +58,4 @@ class FormSignup extends Component {
   }
 }
 
-export default withRouter(FormSignup);
+export default withRouter(withUser(FormSignup));

@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { UserContext } from "../Auth/UserContext";
 import { withRouter, Redirect } from "react-router-dom";
 import apiHandler from "../../api/apiHandler";
-
+import { withUser } from "../Auth/withUser";
 class FormSignin extends Component {
-  static contextType = UserContext;
-
   state = {
     email: "",
     password: "",
@@ -24,8 +22,7 @@ class FormSignin extends Component {
     apiHandler
       .signin(this.state)
       .then((data) => {
-        this.context.setUser(data);
-        this.props.history.push("/");
+        this.props.context.setUser(data);
       })
       .catch((error) => {
         console.log(error);
@@ -34,7 +31,7 @@ class FormSignin extends Component {
   };
 
   render() {
-    if (this.context.user) {
+    if (this.props.context.user) {
       return <Redirect to="/" />;
     }
 
@@ -50,4 +47,4 @@ class FormSignin extends Component {
   }
 }
 
-export default withRouter(FormSignin);
+export default withRouter(withUser(FormSignin));
