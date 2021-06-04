@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import ChatMessage from "./pages/Chat/ChatMessage"
 import NavMain from "./components/NavMain";
 import Home from "./pages/Home";
 import Signin from "./pages/Signin";
@@ -8,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./pages/Profile";
 
 function App() {
+  
   return (
     <div className="App">
       <NavMain />
@@ -15,6 +17,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/signup" component={Signup} />
+        <Route exact path="/chat" component={ChatMessage} />
         <ProtectedRoute exact path="/profile" component={Profile} />
       </Switch>
     </div>

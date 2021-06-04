@@ -10,10 +10,12 @@ const MongoStore = require("connect-mongo");
 const cors = require("cors");
 
 const app = express();
+
 /**
  * Middlewares
  */
 const corsOptions = { origin: process.env.FRONTEND_URL, credentials: true };
+
 
 app.use(cors(corsOptions));
 app.use(logger("dev")); // This logs HTTP reponses in the console.
@@ -52,7 +54,7 @@ app.use("/api/auth", authRouter);
 app.use((req, res, next) => {
   const error = new Error("Ressource not found.");
   error.status = 404;
-  next(err);
+  next(error);
 });
 
 // Error handler middleware
@@ -76,5 +78,9 @@ app.use((err, req, res, next) => {
     }
   }
 });
+
+
+
+
 
 module.exports = app;

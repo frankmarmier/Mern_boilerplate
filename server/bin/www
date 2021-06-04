@@ -6,7 +6,10 @@
 
 const app = require("../app");
 const debug = require("debug")("server:server");
-const http = require("http");
+const http = require("http")
+
+
+
 
 /**
  * Get port from environment and store in Express.
@@ -20,12 +23,34 @@ app.set("port", port);
  */
 
 const server = http.createServer(app);
+const io = require('socket.io')(server,   { 
+    cors: {
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
+  }
+
+});
+
+const conversation = require("../models/Conversation")
+
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {
+  console.log(`listening on *:${port}`);
+});
+
+io.on('connection', (socket) => { /* socket object may be used to send specific messages to the new connected client */
+  console.log('new client connected');
+  socket.emit('connection', null);
+});
+
+
+
 server.on("error", onError);
 server.on("listening", onListening);
 

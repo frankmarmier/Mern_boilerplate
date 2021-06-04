@@ -6,7 +6,7 @@ class Home extends React.Component {
   componentDidMount() {
     axios.get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
     .then(response => {
-      console.log(response.data);
+      console.log("HOME", response.data);
     })
     .catch(e => {
       console.log(e);
