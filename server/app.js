@@ -48,6 +48,9 @@ const authRouter = require("./routes/auth");
 
 app.use("/api/auth", authRouter);
 
+const alumniRouter = require("./routes/alumni");
+app.use("/api/alumni", alumniRouter);
+
 // 404 Middleware
 app.use((req, res, next) => {
   const err = new Error("Ressource not found.");

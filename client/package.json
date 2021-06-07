@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

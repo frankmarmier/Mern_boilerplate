@@ -1,22 +1,18 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  image:{
-    type: String,
-    default:
-      "https://vignette.wikia.nocookie.net/simpsons/images/1/14/Ralph_Wiggum.png/revision/latest/top-crop/width/360/height/360?cb=20100704163100",
-  },
+
+  firstName: String,
+  lastName: String,
   status: {
     type: String,
     enum: ["student", "alumni"],
   },
-  lastName: String,
-  firstName: String,
   email: { type: String, required: true },
-  profileImg: String,
   password: { type: String, required: true },
-  Address: String,
+  formattedAddress: String,
   locationUser: {
     type: {
       type: String,
@@ -26,18 +22,26 @@ const userSchema = new Schema({
       type: [Number],
     },
   },
-  formattedAddress: String,
+  description: String,
   neighborhood: String,
   industry: String,
+  work: String,
+  studies: String,
   intro: String,
+  workSearch: String,
   linkedin: String,
   city: String,
   dept:String,
   codeDept:Number,
+  image:{
+    type: String,
+    default:
+      "https://vignette.wikia.nocookie.net/simpsons/images/1/14/Ralph_Wiggum.png/revision/latest/top-crop/width/360/height/360?cb=20100704163100",
+  },
 
 
 });
 
-const User = mongoose.model("User", userSchema);
+const UserModel = mongoose.model("User", userSchema);
 
-module.exports = User;
+module.exports = UserModel;

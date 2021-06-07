@@ -10,6 +10,8 @@ import Profile from "./pages/Profile";
 function App() {
   return (
     <div className="App">
+      <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js'></script>
+      <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css' rel='stylesheet' />
       <NavMain />
       <Switch>
         <Route exact path="/" component={Home} />
