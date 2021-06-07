@@ -9,7 +9,9 @@ export class Chat extends Component {
     state = {
         channels: null,
         socket: null,
-        channel: null
+        channel: null,
+        username: null,
+        olderMessages: null
     }
     socket;
 
@@ -34,7 +36,6 @@ export class Chat extends Component {
             }
         });
         socket.on('channel', channel => {
-            console.log("CHANNELEMIT", channel)
             let channels = this.state.channels;
             channels.forEach(c => {
                 if (c._id === channel._id) {
@@ -44,7 +45,7 @@ export class Chat extends Component {
             this.setState({ channels });
         });
         socket.on('message', message => {
-            
+
             let channels = this.state.channels
             channels.forEach(c => {
                 if (c._id === message.channel_id) {
@@ -62,30 +63,54 @@ export class Chat extends Component {
 
     handleChannelSelect = id => {
         let channel = this.state.channels.find(c => {
+
             return c._id === id;
         });
-        console.log("channel", channel)
         this.setState({ channel });
         
         this.socket.emit('channel-join', id, ack => {
         });
+
+        let channel_id = channel._id
+        axios.post('http://localhost:8888/api/chat/older-messages', {channel_id}, {withCredentials: true})
+        .then((response) => {
+           
+            this.setState({
+                olderMessages: response.data.olderMessage
+            })
+
+        })
+   
+
+
     }
 
     handleSendMessage = (channel_id, text) => {
+        axios.post('http://localhost:8888/api/chat/messages', { channel_id, text, senderName: this.socket.id, id: Date.now() }, {withCredentials: true})
+        .then((response) => {
 
-        this.socket.emit('send-message', { channel_id, text, senderName: this.socket.id, id: Date.now() });
+            this.socket.emit('send-message', { channel_id, text, senderName: this.socket.id, id: Date.now(), username: response.data.message.user.firstName });
+        })
+   
+   
+   
     }
+
+
     render() {
+      
         return (
             <div style={{display: 'flex'}}>
+                
                 <ChannelList channels={this.state.channels} onSelectChannel={this.handleChannelSelect} />
-                <MessagesPannel onSendMessage={this.handleSendMessage} channel={this.state.channel} />
+                <MessagesPannel onSendMessage={this.handleSendMessage} channel={this.state.channel} olderMessages={this.state.olderMessages}/>
             </div>
         )
     }
 }
 
-export default Chat
+export default Chat;
+
 
 
 

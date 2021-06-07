@@ -28,29 +28,29 @@ class FormSignup extends Component {
   };
 
   handlePlace = (place) => {
-    console.log(place);
-    console.log(place.context.length);
+
 
     if (place.place_type[0] === "place") {
       this.setState({ city: place.text });
-      console.log(place.text);
+
     }
     place.context.map((param, i) => {
       if (param.id.includes("place")) {
         this.setState({ city: place.context[i].text });
       }
     });
-    console.log(place.text);
+
     const location = place.geometry;
     this.setState({ location, formattedAddress: place.place_name });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+    console.log(this.state)
     apiHandler
       .signup(this.state)
       .then((data) => {
+        console.log(data)
         this.props.context.setUser(data);
       })
       .catch((error) => {
@@ -58,21 +58,13 @@ class FormSignup extends Component {
       });
   };
 
-  // imageRef = React.createRef()
-  // const fd = new FormData();
-  // const {httpResponse, ...data}= this.state
-  // buildFormData(fd,data)
-  // fd.append("image".this.imageRef.currentFile[0])
 
-  // apiHandler.addItem(fd)
-  // .then((data)=>this.props.addItem(data));
 
   render() {
     if (this.props.context.user) {
       return <Redirect to="/" />;
     }
-    console.log(this.state.city);
-    console.log(this.state);
+
     return (
       <section className="form-section">
         <img
@@ -221,12 +213,11 @@ class FormSignup extends Component {
                     .replace(/[\u0300-\u036f]/g, "");
                 // let normCom= hood.properties.nom_com.normalize("NFD")
                 // .replace(/[\u0300-\u036f]/g, "");
-                console.log(hood.properties.nom_com)
-                console.log(normCity)
+
 
                 if (hood.properties.nom_com === normCity) {
                   return (
-                    <option value={hood.properties.l_nqpv}>{hood.properties.l_nqpv}</option>
+                    <option key={hood.properties.l_nqpv} value={hood.properties.l_nqpv}>{hood.properties.l_nqpv}</option>
                   );
                 }
               })}
@@ -293,7 +284,7 @@ class FormSignup extends Component {
             </div>
           )}
 
-          <button>Submit</button>
+          <button >Submit</button>
         </form>
 
         <div className="form-section-bottom">

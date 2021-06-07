@@ -38,6 +38,7 @@ class UserProvider extends Component {
       isLoggedIn: this.state.isLoggedIn,
       isLoading: this.state.isLoading,
     };
+    
 
     return (
       <UserContext.Provider value={authValues}>

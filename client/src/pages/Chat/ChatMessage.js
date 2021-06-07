@@ -1,9 +1,10 @@
 import React from "react";
 import Chat from './Chat'
+import { withUser } from "../../components/Auth/withUser";
 import socketClient  from "socket.io-client";
 const SERVER = "http://127.0.0.1:8888";
 
-const ChatMessage = () => {
+const ChatMessage = (props) => {
 
 
     const socket = socketClient(SERVER, {
@@ -16,12 +17,14 @@ const ChatMessage = () => {
     socket.on('connection', () => {
         console.log(`I'm connected with the back-end`);
 });
-    
+
+
+
     return (
         <div>
-            <Chat/>
+            <Chat />
         </div>
     )
 }
 
-export default ChatMessage
+export default withUser(ChatMessage);

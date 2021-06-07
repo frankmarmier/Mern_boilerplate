@@ -9,6 +9,10 @@ const conversationSchema = new Schema({
         type: [{ type: Schema.Types.ObjectId, ref: "User" }],
         ref: "User",
       },
+    olderMessages: {
+      type: [{ type: Schema.Types.ObjectId, ref: "Message" }],
+      ref: "Message",
+    }
 });
 
 const Conversation = mongoose.model("Conversation", conversationSchema);
