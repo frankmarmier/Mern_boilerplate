@@ -31,7 +31,7 @@ router.post("/signin", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", (req, res, next) => {   //uploader.single("image")
   const { email, password, firstName, lastName } = req.body;
 
   User.findOne({ email })
