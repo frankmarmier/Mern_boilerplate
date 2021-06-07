@@ -17,7 +17,7 @@ const userSchema = new Schema({
   profileImg: String,
   password: { type: String, required: true },
   Address: String,
-  location: {
+  locationUser: {
     type: {
       type: String,
       enum: ["Point"],
@@ -27,10 +27,15 @@ const userSchema = new Schema({
     },
   },
   formattedAddress: String,
-  foundHood: String,
+  neighborhood: String,
   industry: String,
   intro: String,
   linkedin: String,
+  city: String,
+  dept:String,
+  codeDept:Number,
+
+
 });
 
 const User = mongoose.model("User", userSchema);

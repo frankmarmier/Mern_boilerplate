@@ -10,11 +10,13 @@ class FormSignup extends Component {
     email: "",
     password: "",
     status: "",
-    location: { coordinates: [] },
+    locationUser: { coordinates: [] },
     formattedAddress: "",
-    neighborhood:"",
+    neighborhood: "",
     city: "",
-    
+    dept:"",
+    codeDept:"",
+
     image:
       "https://vignette.wikia.nocookie.net/simpsons/images/1/14/Ralph_Wiggum.png/revision/latest/top-crop/width/360/height/360?cb=20100704163100",
   };
@@ -22,6 +24,31 @@ class FormSignup extends Component {
   handleChange = (event) => {
     const value = event.target.value;
     const key = event.target.name;
+
+    console.log(value);
+    console.log(key);
+
+    if (key === "neighborhood") {
+      qpv.map((qpv) => {
+        if (
+          qpv.properties.l_nqpv === value &&
+          this.state.city.normalize("NFD").replace(/[\u0300-\u036f]/g, "") ===
+            qpv.properties.nom_com
+        ) {
+          // console.log("quartier bdd" + qpv.properties.l_nqpv);
+          // console.log(
+          //   "ville trouvée" +
+          //     this.state.city.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          // );
+          // console.log("coor quartier" + qpv.properties.geo_point_2d);
+          this.setState({ coordinates: qpv.properties.geo_point_2d, 
+            dept:qpv.properties.nom_dept,codeDept:qpv.properties.c_dep });
+          console.log(this.state.locationUser)
+          console.log(this.state.locationUser.coordinates)
+          console.log(this.state.locationUser.coordinates[0])
+        }
+      });
+    }
 
     this.setState({ [key]: value });
     // console.log(this.state) ;
@@ -42,7 +69,7 @@ class FormSignup extends Component {
     });
     console.log(place.text);
     const location = place.geometry;
-    this.setState({ location, formattedAddress: place.place_name });
+    this.setState({ locationUser:location, formattedAddress: place.place_name });
   };
 
   handleSubmit = (event) => {
@@ -199,7 +226,7 @@ class FormSignup extends Component {
               className="input"
               id="address"
               name="address"
-              placeholder="to get your (old) neighboorhooh"
+              placeholder="to get your (old) neighborhood"
             />
           </div>
 
@@ -209,27 +236,31 @@ class FormSignup extends Component {
                 Neighborhood
               </label>
               <select
-                      onChange={this.handleChange}
-                      value={this.state.neighborhood}
-                      type="select"
-                      className="input"
-                      id="neighborhood"
-                      name="neighborhood"
-                    >
-              {qpv.map((hood) => {
-                let normCity= this.state.city.normalize("NFD")
+              // defaultValue="Select your neighborhood"
+                onChange={this.handleChange}
+                value={this.state.neighborhood}
+                type="select"
+                className="input"
+                id="neighborhood"
+                name="neighborhood"
+              >
+                <option disable selected hidden value="none">Select your neighborhood</option>;
+                {qpv.map((hood) => {
+                  let normCity = this.state.city
+                    .normalize("NFD")
                     .replace(/[\u0300-\u036f]/g, "");
-                // let normCom= hood.properties.nom_com.normalize("NFD")
-                // .replace(/[\u0300-\u036f]/g, "");
-                console.log(hood.properties.nom_com)
-                console.log(normCity)
-
-                if (hood.properties.nom_com === normCity) {
-                  return (
-                    <option value={hood.properties.l_nqpv}>{hood.properties.l_nqpv}</option>
-                  );
-                }
-              })}
+                  // let normCom= hood.properties.nom_com.normalize("NFD")
+                  // .replace(/[\u0300-\u036f]/g, "");
+                  // console.log(hood.properties.nom_com)
+                  // console.log(normCity)
+                  if (hood.properties.nom_com === normCity) {
+                    return (
+                      <option value={hood.properties.l_nqpv}>
+                        {hood.properties.l_nqpv}
+                      </option>
+                    );
+                  }
+                })}
               </select>
             </div>
           )}
@@ -238,6 +269,7 @@ class FormSignup extends Component {
             <label className="label" htmlFor="neighborhood">
               Found neighborhood
             </label>
+            
             <input
               onChange={this.handleChange}
               value={this.state.neighborhood} // WILL COME FROM KEL QUARTIER
