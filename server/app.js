@@ -48,6 +48,9 @@ const authRouter = require("./routes/auth");
 
 app.use("/api/auth", authRouter);
 
+const qpvRouter = require("./routes/alumni");
+app.use("/api/qpv", qpvRouter);
+
 // 404 Middleware
 app.use((req, res, next) => {
   const error = new Error("Ressource not found.");
