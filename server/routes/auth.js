@@ -31,7 +31,7 @@ router.post("/signin", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", (req, res, next) => {   //uploader.single("image")
   const { email, password, firstName, lastName } = req.body;
 
   User.findOne({ email })
@@ -58,7 +58,7 @@ router.get("/isLoggedIn", (req, res, next) => {
   if (!req.session.currentUser)
     return res.status(401).json({ message: "Unauthorized" });
 
-  const id = req.session.currentUser;
+  const id = req.session.currentUser.id;
 
   User.findById(id)
     .select("-password")

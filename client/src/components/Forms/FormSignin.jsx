@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter, Redirect, Link } from "react-router-dom";
 import apiHandler from "../../api/apiHandler";
 import { withUser } from "../Auth/withUser";
 
@@ -36,13 +36,29 @@ class FormSignin extends Component {
     }
 
     return (
-      <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email" name="email" />
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" />
-        <button>Submit</button>
-      </form>
+      <section className="form-section">
+        <header className="header">
+          <h1>
+            Welcome back{" "}
+            <span role="img" aria-label="heart">
+              💙
+            </span>
+          </h1>
+        </header>
+        <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" name="email" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" name="password" />
+          <button>Submit</button>
+        </form>
+        <div className="form-section-bottom">
+          <p>Don't have an account? </p>
+          <Link className="link" to="/signup">
+            Register
+          </Link>
+        </div>
+      </section>
     );
   }
 }
