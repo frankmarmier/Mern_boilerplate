@@ -33,7 +33,8 @@ const io = require('socket.io')(server,   {
 
 });
 
-const conversation = require("../models/Conversation")
+
+const Conversation = require("../models/Conversation");
 
 
 /**
@@ -45,8 +46,38 @@ server.listen(port, () => {
 });
 
 io.on('connection', (socket) => { /* socket object may be used to send specific messages to the new connected client */
-  console.log('new client connected');
   socket.emit('connection', null);
+  socket.on('channel-join', id => {
+    Conversation.find().then((response) => {
+      response.forEach(c => {
+
+        if (c._id.toString()=== id.toString()) {
+            if (c.sockets.indexOf(socket.id) === (-1)) {
+              c.sockets.push(socket.id);
+              c.participants++;
+              io.emit('channel', c);
+            }
+        } else {
+            let index = c.sockets.indexOf(socket.id);
+            if (index != (-1)) {
+                c.sockets.splice(index, 1);
+                c.participants--;
+                io.emit('channel', c);
+            }
+        }
+        })
+      })
+
+    });
+
+
+  socket.on('send-message', message => {
+    console.log(message)
+    io.emit('message', message);
+  });
+
+  
+
 });
 
 
