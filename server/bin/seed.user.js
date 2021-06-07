@@ -1,42 +1,107 @@
-const path = require("path");
-require("dotenv").config({ path: path.join(__dirname, "../.env") });
+const mongoose = require("mongoose");
+
+require("dotenv").config();
 require("../config/dbConnection");
+
+const UserModel = require("./../models/User");
+
 const bcrypt = require("bcrypt");
-
-const User = require("../models/User");
-
 const salt = 10;
 
 const users = [
-  {
-    firstName: "toto",
-    lastName: "toto",
-    email: "toto22@gmail.com",
+    {
+        firstName: "Bertrand",
+        lastName: "Touré",
+        status: "alumni",
+        email: "bertrand.toure@essec.fr",
+        password: bcrypt.hashSync("1234", salt),
+        formattedAddress: "5 Boulevard Beaumarchais 92230 Gennervilliers",
+        locationUser: {coordinates : [48.931814, 2.286697]},
+        neighborhood: "les Courtilles",
+        description: "I spent 2 years as an Analyst at Wavestone, with a Master's degree at Audencia Business School ( France's top 6 business school). Then, in parallel with an associative involvement, I mature my professional project and entered intensive training . Trained and certified, I quickly put my knowledge to work within my last experience as a Proxy Product Owner. Now, along with studies imbued by English, I am seeking opportunities abroad.",
+        industry: "e-commerce",
+        work: "Marketing Manager",
+        studies: "Essec Business School",
+        linkedin: "https://www.linkedin.com/in/st%C3%A9phane-mbesse/",
+        city: "Asnieres-sur-Seine",
+        dept: "Hauts-de-Seine ",
+        codeDept: "92",
+},
+{
+    firstName: "Bertrand",
+    lastName: "Touré",
+    status: "alumni",
+    email: "bertrand.toure@essec.fr",
     password: bcrypt.hashSync("1234", salt),
-    phoneNumber: "06060606606",
-  },
-  {
-    firstName: "Lola",
-    lastName: "The Cat",
-    email: "Lola@gmail.com",
+    formattedAddress: "5 Boulevard Beaumarchais 92230 Gennervilliers",
+    locationUser: {coordinates : [48.931814, 2.286697]},
+    neighborhood: "les Courtilles",
+    description: "I spent 2 years as an Analyst at Wavestone, with a Master's degree at Audencia Business School ( France's top 6 business school). Then, in parallel with an associative involvement, I mature my professional project and entered intensive training . Trained and certified, I quickly put my knowledge to work within my last experience as a Proxy Product Owner. Now, along with studies imbued by English, I am seeking opportunities abroad.",
+    industry: "e-commerce",
+    work: "Marketing Manager",
+    studies: "Essec Business School",
+    linkedin: "https://www.linkedin.com/in/st%C3%A9phane-mbesse/",
+    city: "Asnieres-sur-Seine",
+    dept: "Hauts-de-Seine ",
+    codeDept: "92",
+},
+{
+    firstName: "Bertrand",
+    lastName: "Touré",
+    status: "alumni",
+    email: "bertrand.toure@essec.fr",
     password: bcrypt.hashSync("1234", salt),
-    phoneNumber: "06060606606",
-  },
+    formattedAddress: "5 Boulevard Beaumarchais 92230 Gennervilliers",
+    locationUser: {coordinates : [48.931814, 2.286697]},
+    neighborhood: "les Courtilles",
+    description: "I spent 2 years as an Analyst at Wavestone, with a Master's degree at Audencia Business School ( France's top 6 business school). Then, in parallel with an associative involvement, I mature my professional project and entered intensive training . Trained and certified, I quickly put my knowledge to work within my last experience as a Proxy Product Owner. Now, along with studies imbued by English, I am seeking opportunities abroad.",
+    industry: "e-commerce",
+    work: "Marketing Manager",
+    studies: "Essec Business School",
+    linkedin: "https://www.linkedin.com/in/st%C3%A9phane-mbesse/",
+    city: "Asnieres-sur-Seine",
+    dept: "Hauts-de-Seine ",
+    codeDept: "92",
+},
+{
+    firstName: "Bertrand",
+    lastName: "Touré",
+    status: "alumni",
+    email: "bertrand.toure@essec.fr",
+    password: bcrypt.hashSync("1234", salt),
+    formattedAddress: "5 Boulevard Beaumarchais 92230 Gennervilliers",
+    locationUser: {coordinates : [48.931814, 2.286697]},
+    neighborhood: "les Courtilles",
+    description: "I spent 2 years as an Analyst at Wavestone, with a Master's degree at Audencia Business School ( France's top 6 business school). Then, in parallel with an associative involvement, I mature my professional project and entered intensive training . Trained and certified, I quickly put my knowledge to work within my last experience as a Proxy Product Owner. Now, along with studies imbued by English, I am seeking opportunities abroad.",
+    industry: "e-commerce",
+    work: "Marketing Manager",
+    studies: "Essec Business School",
+    linkedin: "https://www.linkedin.com/in/st%C3%A9phane-mbesse/",
+    city: "Asnieres-sur-Seine",
+    dept: "Hauts-de-Seine ",
+    codeDept: "92",
+},
+{
+    firstName: "Bertrand",
+    lastName: "Touré",
+    status: "alumni",
+    email: "bertrand.toure@essec.fr",
+    password: bcrypt.hashSync("1234", salt),
+    formattedAddress: "5 Boulevard Beaumarchais 92230 Gennervilliers",
+    locationUser: {coordinates : [48.931814, 2.286697]},
+    neighborhood: "les Courtilles",
+    description: "I spent 2 years as an Analyst at Wavestone, with a Master's degree at Audencia Business School ( France's top 6 business school). Then, in parallel with an associative involvement, I mature my professional project and entered intensive training . Trained and certified, I quickly put my knowledge to work within my last experience as a Proxy Product Owner. Now, along with studies imbued by English, I am seeking opportunities abroad.",
+    industry: "e-commerce",
+    work: "Marketing Manager",
+    studies: "Essec Business School",
+    linkedin: "https://www.linkedin.com/in/st%C3%A9phane-mbesse/",
+    city: "Asnieres-sur-Seine",
+    dept: "Hauts-de-Seine ",
+    codeDept: "92",
+},
 ];
 
-async function seedUsers() {
-  try {
-    await User.collection
-      .drop()
-      .catch((error) => console.log("No collection to drop, proceeding..."));
+UserModel.create(users)
+    .then ((response) => console.log(response))
+    .catch((error) => console.log(error));
 
-    const createdUsers = await User.create(users);
-    console.log(createdUsers);
-    process.exit();
-  } catch (error) {
-    console.log(error);
-    process.exit();
-  }
-}
-
-seedUsers();

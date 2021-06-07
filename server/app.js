@@ -53,6 +53,9 @@ const chatRouter = require("./routes/chat");
 app.use("/api/auth", authRouter);
 app.use("/api/chat", chatRouter);
 
+const alumniRouter = require("./routes/alumni");
+app.use("/api/alumni", alumniRouter);
+
 // 404 Middleware
 app.use((req, res, next) => {
 
