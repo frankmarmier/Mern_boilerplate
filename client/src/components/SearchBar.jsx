@@ -4,33 +4,25 @@ import axios from 'axios';
 
 export default class SearchBar extends Component {
     state = {
-        qpvs: [],
+        alumnis: [],
       };
-    
-      componentDidMount() {
-        axios
-          .get("http://localhost:5000/api/qpv")
-          .then((qpvResponse) => {
-            console.log(qpvResponse);
-            this.setState({qpvs: qpvResponse.data});
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    
     
     render() {
         return (
             <div>
-                <input type="text" placeholder="Search..."/>
-                    {this.state.qpvs.map((qpvsResults) => {
-                        console.log(qpvsResults);
-                        return <div>
-                            <div>{qpvsResults.properties.nomCom}</div>
-                            <div>{qpvsResults.properties.lNqpv}</div>
-                            </div>
-                    })}
+              
+               <form action="/" method="get">
+                 <label htmlFor="header-search">
+                   <span className="visually-hidden">Recherche un alumni proche de toi !</span>
+                 </label>
+                 <input
+                  type="text"
+                  id="header-search"
+                  placeholder="Recherche un alumni proche de toi !"
+                  name="searchBar"
+                 />
+                <button type="submit">Rechercher</button>
+               </form>
             </div>
         )
     }

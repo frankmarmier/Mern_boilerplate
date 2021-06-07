@@ -1,15 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const QpvModel = require("../models/Qpv");
+const AlumniModel = require("../models/User");
 const mongoose = require("mongoose");
 
 router.get("/", (req, res, next) => {
 
-    QpvModel.find()
-    .then((qpvResults) => {
-        console.log(qpvResults.properties);
-        console.log(qpvResults.data);
-        res.status(200).json(qpvResults);
+    AlumniModel.find()
+    .then((alumniResults) => {
+        console.log(alumniResults);
+        res.status(200).json(alumniResults);
     })
     .catch((error) => {
         console.log(error);

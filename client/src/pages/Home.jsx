@@ -5,6 +5,7 @@ import axios from "axios";
 import SearchBar from "../components/SearchBar";
 import ListAlumni from "../components/ListAlumni";
 import QpvsData from "../qpv.json";
+import { useState } from 'react';
 
 console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 const Map = ReactMapboxGl({
@@ -14,21 +15,49 @@ const Map = ReactMapboxGl({
 
 
 class Home extends React.Component {
+  state = {
+    alumnis: [],
+  };
 
+
+  componentDidMount() {
+    axios
+      .get("http://localhost:5000/api/alumni")
+      .then((usersResponse) => {
+        console.log(usersResponse);
+        this.setState({alumnis: usersResponse.data});
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
 
   render() {
     return (
       <div>
-        <h1>Home Page ∆</h1>
-        <SearchBar />
+        <h1>Take Your Chance ∆</h1>
+        <div>
+          {/* <SearchBar 
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}         
+          /> */}
+          <ul>
+            {this.state.alumnis.map((alumni) => {
+              return (
+                <div>
+                  <li key={alumni.id}>
+                    {alumni.firstName} {alumni.lastName}<br/>
+                    <p>{alumni.industry}</p>
+                    <p>{alumni.work}</p>
+                    <p>{alumni.studies}</p>
+                  </li>
+                </div>
+            );
+            })}
+          </ul>
+        </div>
         <ListAlumni />
-        <h1>Qpvs</h1>
-        {QpvsData.map((qpv) => {
-          //console.log(qpv.properties.l_nqpv);
-          <li>{qpv.properties.l_nqpv}</li>;
-        }
-        )}
         <Map
           center={[2.333333, 48.866667]}
           zoom={[14]}
@@ -38,10 +67,21 @@ class Home extends React.Component {
             width: '100vw'
           }}
         >
-          {QpvsData.map((qpv) => {
-              console.log(qpv.properties.geo_point_2d[0]);
-              <Marker key={qpv.properties.c_nqpv} lattitude={qpv.properties.geo_point_2d[0]} longitude={qpv.properties.geo_point_2d[1]}>
-                <img src="https://media-exp1.licdn.com/dms/image/C4D03AQFVWM-O6hnNcA/profile-displayphoto-shrink_800_800/0/1593705445712?e=1628121600&v=beta&t=43_dRJlOjAMujOqxZxCncEICUQoAvWlcrduROYpDaq8" alt="alumni"/>
+          {this.state.alumnis.map((alumni) => {
+              console.log(alumni.locationUser.coordinates[0]);
+              console.log(alumni.locationUser.coordinates[1]);
+              <Marker
+               key={alumni._id} 
+               coordinates={[alumni.locationUser.coordinates[1],
+                alumni.locationUser.coordinates[0]]}>
+                <img 
+                src= {alumni.image} 
+                alt="alumni"
+                style={{
+                  width: 70,
+                  height: 70,
+                }}
+                />
               </Marker>
           })}
 
