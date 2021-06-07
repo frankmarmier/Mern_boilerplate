@@ -31,8 +31,24 @@ router.post("/signin", (req, res, next) => {
     .catch(next);
 });
 
-router.post("/signup", (req, res, next) => {   //uploader.single("image")
-  const { email, password, firstName, lastName } = req.body;
+router.post("/signup", (req, res, next) => {
+  //uploader.single("image")
+  const {
+    lastName,
+    firstName,
+    email,
+    profileImg,
+    password,
+    Address,
+    locationUser,
+    neighborhood,
+    industry,
+    intro,
+    linkedin,
+    city,
+    dep,
+    codeDept,
+  } = req.body;
 
   User.findOne({ email })
     .then((userDocument) => {
@@ -41,7 +57,20 @@ router.post("/signup", (req, res, next) => {   //uploader.single("image")
       }
 
       const hashedPassword = bcrypt.hashSync(password, salt);
-      const newUser = { email, lastName, firstName, password: hashedPassword };
+      const newUser = { lastName,
+        firstName,
+        email,
+        profileImg,
+        password:hashedPassword,
+        Address,
+        locationUser,
+        neighborhood,
+        industry,
+        intro,
+        linkedin,
+        city,
+        dep,
+        codeDept};
 
       User.create(newUser)
         .then((newUserDocument) => {

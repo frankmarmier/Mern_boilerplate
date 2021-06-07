@@ -33,7 +33,7 @@ const userSchema = new Schema({
     "https://media-exp1.licdn.com/dms/image/C4D03AQFVWM-O6hnNcA/profile-displayphoto-shrink_800_800/0/1593705445712?e=1628121600&v=beta&t=43_dRJlOjAMujOqxZxCncEICUQoAvWlcrduROYpDaq8"
   },
   Address: String,
-  location: {
+  locationUser: {
     type: {
       type: String,
       enum: ["Point"],
@@ -43,10 +43,15 @@ const userSchema = new Schema({
     },
   },
   formattedAddress: String,
-  foundHood: String,
+  neighborhood: String,
   industry: String,
   intro: String,
   linkedin: String,
+  city: String,
+  dept:String,
+  codeDept:Number,
+
+
 });
 
 const UserModel = mongoose.model("User", userSchema);
