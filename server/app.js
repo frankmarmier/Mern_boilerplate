@@ -53,8 +53,8 @@ app.use("/api/qpv", qpvRouter);
 
 // 404 Middleware
 app.use((req, res, next) => {
-  const error = new Error("Ressource not found.");
-  error.status = 404;
+  const err = new Error("Ressource not found.");
+  err.status = 404;
   next(err);
 });
 
