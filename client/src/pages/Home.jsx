@@ -11,7 +11,6 @@ import SearchBar from "../components/SearchBar";
 import qpv from "../qpvDB.json";
 import QpvsData from "../qpv.json";
 
-
 import { withRouter } from "react-router-dom";
 
 import AlumniDisplay from "../components/AlumniDisplay";
@@ -113,7 +112,7 @@ class Home extends React.Component {
       return <div>Nous n'avons pas trouvé de profil </div>;
     }
 
-    console.log(this.state.alumnis);
+
 
     const filteredAlumnis = this.state.alumnis.filter((alumni) => {
       
@@ -123,11 +122,14 @@ class Home extends React.Component {
         .includes(this.state.SearchValue));
     })
 
+
     return (
       <div>
         <h1>Take Your Chance ∆</h1>
 
         <div>
+
+
 
           <SearchBar 
             handleChange={this.handleSearchValue}
@@ -138,12 +140,13 @@ class Home extends React.Component {
               <ul>
                 {this.state.alumnis.map((alumni) => {
                   return (
-                    <div>
-                      <li key={alumni.id}>
+                    <div key={alumni._id}>
+                      <li >
                         {alumni.firstName} {alumni.lastName}<br/>
                         <p>{alumni.industry}</p>
                         <p>{alumni.work}</p>
-                        <p>{alumni.studies}</p>                       
+                        <p>{alumni.studies}</p>  
+                        <button onClick={() => this.handleConversation(alumni._id)}>Chat</button>                     
                       </li>
                   </div>
                   );

@@ -55,8 +55,8 @@ export class MessagesPannel extends Component {
 
 ‍               {this.props.channel &&
                 <div className="messages-input">
-                    <input style={{margin: '22px', padding: "15px"}} type="text" onChange={this.handleInput} value={this.state.input_value} />‍
-                    <button className="primary-button" onClick={() => this.send(user && user._id)}>Send</button>
+                    <input className="w-100" style={{margin: '22px', padding: "15px"}} type="text" onChange={this.handleInput} value={this.state.input_value} />‍
+                    <button type="submit" className="primary-button"  onClick={() => this.send(user && user._id)}>Send</button>
                     
                 </div>}
             </div>

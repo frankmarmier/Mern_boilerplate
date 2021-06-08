@@ -4,6 +4,7 @@ import AutoComplete from "../AutoComplete";
 import { withUser } from "../Auth/withUser";
 import apiHandler from "../../api/apiHandler";
 import qpv from "../../qpvDB.json";
+import "../../styles/Form.css";
 
 class FormSignup extends Component {
   state = {
@@ -92,7 +93,16 @@ class FormSignup extends Component {
     }
 
     return (
-      <section className="form-section">
+      <div className="container d-flex align-items-center justify-content-center mb-5">
+      <div className="form-container-signup mb-5">
+      <header className="header mt-5 mb-5 d-flex">
+          <h1 className='text-center' >
+            Create an account{" "}
+            <span role="img" aria-label="heart">
+              ❤️
+            </span>
+          </h1>
+        </header>
         <img
           src={this.state.image}
           alt="Avatar"
@@ -105,13 +115,14 @@ class FormSignup extends Component {
         />
 
         <form
-          className="form"
+          className="d-flex flex-column align-items-center"
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
         >
-          <div className="form-group">
+       
             <label htmlFor="image">Upload image</label>
             <input
+              className= " w-100 mt-2" 
               id="image"
               type="file"
               name="image"
@@ -122,14 +133,14 @@ class FormSignup extends Component {
                */
               ref={this.inputFileRef}
             />
-          </div>
+        
 
-          <div className="form-group">
+          <div className="form-group w-100">
             <label className="label" htmlFor="status">
               I am
             </label>
             <select
-              className="input"
+              className="w-100 mt-2 p-2"
               type="select"
               onChange={this.handleChange}
               value={this.state.status}
@@ -143,83 +154,67 @@ class FormSignup extends Component {
             </select>
           </div>
 
-          {/* <label class="container">One
-  <input type="checkbox" checked="checked">
-  <span class="checkmark"></span>
-</label>
 
-<label class="container">Two
-  <input type="checkbox">
-  <span class="checkmark"></span>
-</label> */}
 
-          <div className="form-group">
-            <label className="label" htmlFor="firstName">
-              First name
-            </label>
+         
             <input
-              className="input"
+              placeholder="First name"
+              className= " w-100 mt-2" 
               id="firstName"
               type="text"
               name="firstName"
             />
-          </div>
+      
 
-          <div className="form-group">
-            <label className="label" htmlFor="lastName">
-              Last Name
-            </label>
+      
             <input
-              className="input"
+              className= " w-100 mt-2" 
+              placeholder= "Last name"
               id="lastName"
               type="text"
               name="lastName"
             />
-          </div>
+       
 
-          <div className="form-group">
-            <label className="label" htmlFor="email">
-              Email
-            </label>
+    
+
             <input
+              placeholder="Email"
+              className= " w-100 mt-2" 
               onChange={this.handleChange}
               value={this.state.email}
               type="text"
-              className="input"
               id="email"
               name="email"
             />
-          </div>
+        
 
-          <div className="form-group">
-            <label className="label" htmlFor="password">
-              Password
-            </label>
+         
             <input
+              className= " w-100 mt-2" 
+              placeholder="Password"
               onChange={this.handleChange}
               value={this.state.password}
               type="password"
-              className="input"
+
               id="password"
               name="password"
             />
-          </div>
+        
 
-          <div className="form-group">
-            <label className="label" htmlFor="address">
-              Address
-            </label>
+          
             <AutoComplete
               onSelect={this.handlePlace}
               onChange={this.handleChange}
               value={this.state.address}
+              placeholder= "Address"
               type="text"
-              className="input"
+              className= "w-100 mt-2" 
               id="address"
               name="address"
               placeholder="to get your (old) neighborhood"
             />
-          </div>
+       
 
           {this.state.city && (
             <div className="form-group">
@@ -231,7 +226,7 @@ class FormSignup extends Component {
                 onChange={this.handleChange}
                 value={this.state.neighborhood}
                 type="select"
-                className="input"
+                className= " w-100 mt-2" 
                 id="neighborhood"
                 name="neighborhood"
               >
@@ -267,76 +262,58 @@ class FormSignup extends Component {
             </div>
           )}
 
-          {/* <div className="form-group">
-            <label className="label" htmlFor="neighborhood">
-              Found neighborhood
-            </label>
-            
-            <input
-              onChange={this.handleChange}
-              value={this.state.neighborhood} // WILL COME FROM KEL QUARTIER
-              type="text"
-              className="input"
-              id="neighborhood"
-              name="neighborhood"
-            />
-          </div> */}
+
           {this.state.status === "alumni" && (
             <div className="alumniPart">
-              <div className="form-group">
-                <label className="label" htmlFor="industry">
-                  Field of work/study
-                </label>
+             
                 <input
                   onChange={this.handleChange}
                   value={this.state.industry}
                   type="text"
-                  className="input"
+                  placeholder= "Field of work/study"
+                  className= " w-100 mt-2" 
                   id="industry"
                   name="industry"
                 />
-              </div>
+             
 
-              <div className="form-group">
-                <label className="label" htmlFor="intro">
-                  Introduction
-                </label>
+            
+
                 <input
                   onChange={this.handleChange}
                   value={this.state.intro}
                   type="text"
-                  className="input"
+                  className= " w-100 mt-2" 
+                  placeholder="Introduction"
                   id="intro"
                   name="intro"
                 />
-              </div>
-              <div className="form-group">
-                <label className="label" htmlFor="linkedin">
-                  Linkedin Profil
-                </label>
+            
+              
                 <input
                   onChange={this.handleChange}
                   value={this.state.linkedin}
                   placeholder="(ex : https://fr.linkedin.com/in/emmanuelmacron)"
                   type="text"
-                  className="input"
+                  className= " w-100 mt-2" 
                   id="linkedin"
                   name="linkedin"
                 />
-              </div>
+          
             </div>
           )}
 
-          <button >Submit</button>
+          <button className="primary-button w-100 p-2 mt-3" >Submit</button>
         </form>
 
-        <div className="form-section-bottom">
+        <div className="form-div-bottom mb-5">
           <p>Already have an account? </p>
-          <Link className="link" to="/signin">
+          <Link className="link  mb-5" to="/signin">
             Log in
           </Link>
         </div>
-      </section>
+        </div>
+      </div>
     );
   }
 }

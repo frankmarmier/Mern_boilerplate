@@ -18,7 +18,7 @@ router.post('/messages', (req, res, next) => {
     const {channel_id, text, senderName} = req.body
     const newMessage = {channel_id, text, senderName} 
     newMessage.sent = new Date(req.body.id)
-    console.log(newMessage.sent)
+
     User.findById(req.session.currentUser.id).then((response) => {
         newMessage.user = response
     

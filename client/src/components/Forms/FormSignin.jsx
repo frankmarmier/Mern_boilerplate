@@ -36,22 +36,20 @@ class FormSignin extends Component {
     }
 
     return (
-      <div className="container d-flex align-items-center">
+      <div className="container d-flex align-items-center justify-content-center">
       <div className="form-container">
-        <header className="header">
-          <h1>
+        <header className="header mt-5 mb-5">
+          <h1 className='text-center' >
             Welcome back{" "}
             <span role="img" aria-label="heart">
               💙
             </span>
           </h1>
         </header>
-        <form onChange={this.handleChange} onSubmit={this.handleSubmit}>
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" name="email" />
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" />
-          <button>Submit</button>
+        <form className="d-flex flex-column align-items-center" onChange={this.handleChange} onSubmit={this.handleSubmit}>
+          <input className= " w-100 mt-2" placeholder="Email" type="email" id="email" name="email" />
+          <input className= " w-100 mt-2" placeholder="password" type="password" id="password" name="password" />
+          <button className="primary-button w-100 p-2 mt-3">Submit</button>
         </form>
         <div className="form-div-bottom">
           <p>Don't have an account? </p>
@@ -60,7 +58,7 @@ class FormSignin extends Component {
           </Link>
         </div>
       </div>
-      <div><img style={{}} src="https://image.freepik.com/vecteurs-libre/personnes-se-reunissant-ligne-via-illustration-plate-videoconference-groupe-dessin-anime-collegues-chat-collectif-virtuel-pendant-verrouillage_74855-14136.jpg"/></div>
+      <div><img style={{}} src="https://fr.freepik.com/vecteurs-libre/personnes-se-reunissant-ligne-via-illustration-plate-videoconference-groupe-dessin-anime-collegues-chat-collectif-virtuel-pendant-verrouillage_12291225.htm#page=1&query=workspace&position=1"/></div>
       </div>
     );
   }

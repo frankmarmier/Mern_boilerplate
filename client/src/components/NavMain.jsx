@@ -37,7 +37,7 @@ export class NavMain extends Component {
   render() {
     const { context } = this.props;
     const { user } = context
-    console.log("NAVMAINNOTIF", this.props.alumni )
+
 
    const handleLogout = () => {
      apiHandler
@@ -59,7 +59,7 @@ export class NavMain extends Component {
         <h3 className="logo">App name</h3>
 
       </NavLink>
-      {!this.props.notif && <NavLink to="/chat" className="alert-message green"><i className=" fas fa-sms"></i> Go to chatroom</NavLink>}
+      {!this.props.notif && context.isLoggedIn && <NavLink to="/chat" className="alert-message green"><i className=" fas fa-sms"></i> Go to chatroom</NavLink>}
       {this.props.notif && <NavLink to="/chat"  style={{color: this.state.buttonColor}} onClick={this.handleClick} className="alert-message green"><i className=" fas fa-sms"></i> Message from {this.props.senderName}</NavLink>}
 
       <ul className="nav-list">
