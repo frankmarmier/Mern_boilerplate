@@ -14,8 +14,8 @@ class FormSignup extends Component {
     formattedAddress: "",
     neighborhood: "",
     city: "",
-    dept:"",
-    codeDept:"",
+    dept: "",
+    codeDept: "",
 
     image:
       "https://vignette.wikia.nocookie.net/simpsons/images/1/14/Ralph_Wiggum.png/revision/latest/top-crop/width/360/height/360?cb=20100704163100",
@@ -41,11 +41,14 @@ class FormSignup extends Component {
           //     this.state.city.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
           // );
           // console.log("coor quartier" + qpv.properties.geo_point_2d);
-          this.setState({ coordinates: qpv.properties.geo_point_2d, 
-            dept:qpv.properties.nom_dept,codeDept:qpv.properties.c_dep });
-          console.log(this.state.locationUser)
-          console.log(this.state.locationUser.coordinates)
-          console.log(this.state.locationUser.coordinates[0])
+          this.setState({
+            coordinates: qpv.properties.geo_point_2d,
+            dept: qpv.properties.nom_dept,
+            codeDept: qpv.properties.c_dep,
+          });
+          console.log(this.state.locationUser);
+          console.log(this.state.locationUser.coordinates);
+          console.log(this.state.locationUser.coordinates[0]);
         }
       });
     }
@@ -69,7 +72,10 @@ class FormSignup extends Component {
     });
     console.log(place.text);
     const location = place.geometry;
-    this.setState({ locationUser:location, formattedAddress: place.place_name });
+    this.setState({
+      locationUser: location,
+      formattedAddress: place.place_name,
+    });
   };
 
   handleSubmit = (event) => {
@@ -236,7 +242,7 @@ class FormSignup extends Component {
                 Neighborhood
               </label>
               <select
-              // defaultValue="Select your neighborhood"
+                // defaultValue="Select your neighborhood"
                 onChange={this.handleChange}
                 value={this.state.neighborhood}
                 type="select"
@@ -244,16 +250,24 @@ class FormSignup extends Component {
                 id="neighborhood"
                 name="neighborhood"
               >
-                <option disable selected hidden value="none">Select your neighborhood</option>;
+                <option disable selected hidden value="none">
+                  Select your neighborhood
+                </option>
+                ;
                 {qpv.map((hood) => {
                   let normCity = this.state.city
                     .normalize("NFD")
                     .replace(/[\u0300-\u036f]/g, "");
+
+                  // console.log(hood.properties);
                   // let normCom= hood.properties.nom_com.normalize("NFD")
                   // .replace(/[\u0300-\u036f]/g, "");
                   // console.log(hood.properties.nom_com)
                   // console.log(normCity)
-                  if (hood.properties.nom_com === normCity) {
+                  if (
+                    hood.properties.nom_com &&
+                    hood.properties.nom_com.includes(normCity)
+                  ) {
                     return (
                       <option value={hood.properties.l_nqpv}>
                         {hood.properties.l_nqpv}
