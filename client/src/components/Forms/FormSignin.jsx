@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter, Redirect, Link } from "react-router-dom";
 import apiHandler from "../../api/apiHandler";
 import { withUser } from "../Auth/withUser";
-
+import "../../styles/Form.css";
 class FormSignin extends Component {
   state = {
     email: "",
@@ -36,7 +36,8 @@ class FormSignin extends Component {
     }
 
     return (
-      <section className="form-section">
+      <div className="container d-flex align-items-center">
+      <div className="form-container">
         <header className="header">
           <h1>
             Welcome back{" "}
@@ -52,13 +53,15 @@ class FormSignin extends Component {
           <input type="password" id="password" name="password" />
           <button>Submit</button>
         </form>
-        <div className="form-section-bottom">
+        <div className="form-div-bottom">
           <p>Don't have an account? </p>
           <Link className="link" to="/signup">
             Register
           </Link>
         </div>
-      </section>
+      </div>
+      <div><img style={{}} src="https://image.freepik.com/vecteurs-libre/personnes-se-reunissant-ligne-via-illustration-plate-videoconference-groupe-dessin-anime-collegues-chat-collectif-virtuel-pendant-verrouillage_74855-14136.jpg"/></div>
+      </div>
     );
   }
 }
