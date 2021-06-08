@@ -8,11 +8,7 @@ import ReactMapboxGl, {
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
-<<<<<<< HEAD
-=======
-import ListAlumni from "../components/ListAlumni";
 import qpv from "../qpvDB.json";
->>>>>>> master
 import QpvsData from "../qpv.json";
 import AlumniDisplay from "../components/AlumniDisplay";
 
@@ -79,27 +75,23 @@ class Home extends React.Component {
   };
 
   render() {
-<<<<<<< HEAD
     console.log(this.state.clickedAlumni);
-=======
     if (this.state.loading) {
       return <div>Loading...</div>;
     }
 
     if (!this.state.alumnis) {
-      return <div>Nous n'avons pas trouvé de profil {":'("}</div>;
+      return <div>Nous n'avons pas trouvé de profil </div>;
     }
 
->>>>>>> master
     console.log(this.state.alumnis);
 
     const filteredAlumnis = this.state.alumnis.filter((alumni) => {
       
       console.log(alumni.neighborhood);
       return (
-        alumni.neighborhood
-        .toLowerCase()
-        .includes(this.state.SearchValue));  
+        alumni.neighborhood && alumni.neighborhood.toLowerCase()
+        .includes(this.state.SearchValue));
     })
 
     return (
@@ -107,10 +99,10 @@ class Home extends React.Component {
         <h1>Take Your Chance ∆</h1>
 
         <div>
-          {/* <SearchBar 
+          <SearchBar 
             handleChange={this.handleSearchValue}
             value={this.state.searchValue}         
-          /> */}
+          />
           <div>
             <div>
               <ul>
@@ -130,10 +122,7 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-<<<<<<< HEAD
 
-=======
->>>>>>> master
         <Map
           center={[2.333333, 48.866667]}
           zoom={[14]}
