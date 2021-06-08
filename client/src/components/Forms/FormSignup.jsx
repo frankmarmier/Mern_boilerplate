@@ -25,8 +25,7 @@ class FormSignup extends Component {
     const value = event.target.value;
     const key = event.target.name;
 
-    console.log(value);
-    console.log(key);
+
 
     if (key === "neighborhood") {
       qpv.map((qpv) => {
@@ -43,9 +42,7 @@ class FormSignup extends Component {
           // console.log("coor quartier" + qpv.properties.geo_point_2d);
           this.setState({ coordinates: qpv.properties.geo_point_2d, 
             dept:qpv.properties.nom_dept,codeDept:qpv.properties.c_dep });
-          console.log(this.state.locationUser)
-          console.log(this.state.locationUser.coordinates)
-          console.log(this.state.locationUser.coordinates[0])
+
         }
       });
     }
@@ -73,12 +70,13 @@ class FormSignup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state)
+
     apiHandler
       .signup(this.state)
       .then((data) => {
-        console.log(data)
+
         this.props.context.setUser(data);
+        this.props.history('/')
       })
       .catch((error) => {
         console.log(error);

@@ -79,6 +79,10 @@ io.on('connection', (socket) => { /* socket object may be used to send specific 
     io.emit('message', message);
   });
 
+  socket.on('send-notification', notification => {
+    io.emit('notification', notification);
+  });
+
   
 
 });

@@ -17,6 +17,8 @@ router.get('/getChannels', (req, res) => {
 router.post('/messages', (req, res, next) => {
     const {channel_id, text, senderName} = req.body
     const newMessage = {channel_id, text, senderName} 
+    newMessage.sent = new Date(req.body.id)
+    console.log(newMessage.sent)
     User.findById(req.session.currentUser.id).then((response) => {
         newMessage.user = response
     
@@ -42,21 +44,74 @@ router.post('/messages', (req, res, next) => {
 })
 
 router.post('/older-messages', (req, res, next) => {
-    console.log(req.body)
     Conversation.findById(req.body.channel_id).then((response) => {
-        console.log(response.olderMessages)
-        Message.find( { _id : { $in : response.olderMessages } }).then((messageData) => {
-            console.log(messageData)
-            res.json({
-                olderMessage: messageData
+        if(response !== null) {
+
+            Message.find( { _id : { $in : response.olderMessages } }).then((messageData) => {
+                res.json({
+                    olderMessage: messageData
+                })
             })
-        })
+        } else {
+            res.json(200)
+        }
 
 
     }).catch((error) => console.log(error))
 })
 
 router.post('/conversation', (req, res, next) => {
+    if(req.session.currentUser) {
+        Conversation.find({ users: { $all: [ObjectId(req.session.currentUser.id), ObjectId(req.body.alumni_id)] } })
+        .then((response) => {
+           
+
+            if(response.length === 0) {
+
+                let name = []
+
+                User.findById(req.body.alumni_id).then((response) => {
+                    
+                    name.push(response?.firstName)
+                    User.findById(req.session.currentUser.id).then((response) => {
+                        name.push(response?.firstName)
+                        let user_name = response?.firstName
+                        const newConv = {title: name,
+                        participants: 1,
+                        sockets: [],
+                        users: [req.body.alumni_id, req.session.currentUser.id]
+                        }
+
+                        Conversation.create(newConv).then((newConversation) => {
+                           
+                            res.json({
+                                conversation: newConversation,
+                                alumni_name: user_name
+                                
+                            })
+                        })
+                        
+                    })
+                })
+
+            }  else {
+                User.findById(req.session.currentUser.id).then((response) => {
+
+                    let user_name = response?.firstName
+                    res.json({
+                        alumni_name: user_name
+                    })
+                })
+            }
+        })
+
+   
+
+    } else {
+
+        console.log("NOT LOGGED IN")
+    }
+    
     
 
 })

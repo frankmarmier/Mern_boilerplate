@@ -6,8 +6,10 @@ const messageSchema = new Schema({
     text: String,
     senderName: String,
     username: String,
-    user: {type: Schema.Types.ObjectId, ref: "User"}
-});
+    user: {type: Schema.Types.ObjectId, ref: "User"},
+    sent: Date
+},
+{ timestamps: true });
 
 const Message = mongoose.model("Message", messageSchema);
 

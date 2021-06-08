@@ -4,7 +4,7 @@
     display: flex;
 }
 .no-content-message {
-    color: #cccccc;
+    color: #24296B;
     font-style: italic;
     font-size: 20px;
     text-align: center;
@@ -13,18 +13,30 @@
 
 .channel-list {
     width: calc(20% - 12px);
-    border: 1px solid rgb(224, 224, 224);
+
     margin: 10px;
     margin-right: 0;
     border-right: none;
-    height: calc(100% - 22px);
+
+}
+
+.new-message-left {
+
+    border: 0.2px solid #24296B;
 }
 
 .channel-item {
-    border-bottom: 1px solid rgb(224, 224, 224);
+ 
     padding: 10px;
+    cursor: pointer;
+    color: #24296b
 
 
+
+}
+
+.chanel-name {
+    color: #3cad95 !important
 
 }
 .messages-list {
@@ -34,7 +46,7 @@
 
     .messages-panel {
         width: calc(80% - 12px);
-        border: 1px solid rgb(224, 224, 224);
+
         margin: 10px;
         margin-left: 0;
         height: calc(100% - 22px);
@@ -45,13 +57,36 @@
 
 
 
-        .messages-input {
-            width: 100%;
-            height: 40px;
-            border-top: 1px solid rgb(224, 224, 224);
-            background-color: #f0f0f0;
-            display: flex;
-        }
+.messages-input {
+    width: 100%;
+    height: 60px;
+    background-color: #ECF3F9;
+    display: flex;
+    align-items: center;
+}
+
+.older-messages {
+    background-color: #ECF3F9;
+    padding: 10px;
+}
+
+
+
+.older-message-left > .message-item {
+    background-color: #24296B;
+    color: white;
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.older-message-right{
+    background-color: white;
+    color: #24296B;
+    border-radius: 30px;
+    padding: 20px;
+
+}
+
 
 input {
     margin: auto;
@@ -59,7 +94,7 @@ input {
     width: 100%;
     margin-left: 15px;
     border-radius: 15px;
-    border: 1px solid rgb(224, 224, 224);
+    border: 1px solid #ECF3F9;
 
 
 }
@@ -74,3 +109,33 @@ button {
     padding: 5px 13px;
 }
 
+.primary-button {
+    width: 100px;
+    height: 80%;
+    /* margin-top: 30px; */
+    border: none;
+    margin-left: 0px;
+    margin-right: 5px;
+
+    border-radius: 20px;
+    background-color: #3cad95;
+    /* opacity: 1; */
+    transition-property: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: none;
+}
+
+.green {
+   color: #3cad95 
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+.alert-message:hover {
+    font-weight: bold;
+}

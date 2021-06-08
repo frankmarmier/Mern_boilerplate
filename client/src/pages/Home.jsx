@@ -1,9 +1,3 @@
-
- 
-
-
-
-
 import React, { Component } from "react";
 import ReactMapboxGl, { GeoJSONLayer, Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -12,8 +6,9 @@ import SearchBar from "../components/SearchBar";
 import ListAlumni from "../components/ListAlumni";
 import QpvsData from "../qpv.json";
 import { useState } from 'react';
+import { withRouter } from "react-router-dom";
 
-console.log(process.env.REACT_APP_MAPBOX_TOKEN)
+
 const Map = ReactMapboxGl({
   accessToken:
     process.env.REACT_APP_MAPBOX_TOKEN
@@ -37,14 +32,24 @@ class Home extends React.Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/api/alumni")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/alumni`, {withCredentials: true})
       .then((usersResponse) => {
-        console.log(usersResponse);
+
         this.setState({alumnis: usersResponse.data});
       })
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  handleConversation = (alumni_id) => {
+    console.log("je passe par la home ")
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/chat/conversation`, {alumni_id}, {withCredentials: true})
+    .then((response) => {
+      console.log(response.data)
+      this.props.handleNotification(alumni_id, response.data.alumni_name)
+      this.props.history.push('/chat')
+    })
   }
 
 
@@ -60,12 +65,14 @@ class Home extends React.Component {
           <ul>
             {this.state.alumnis.map((alumni) => {
               return (
-                <div>
-                  <li key={alumni.id}>
+                <div key= {alumni._id}>
+                  <li>
                     {alumni.firstName} {alumni.lastName}<br/>
                     <p>{alumni.industry}</p>
+                    <p>{alumni.email}</p>
                     <p>{alumni.work}</p>
                     <p>{alumni.studies}</p>
+                    <button onClick={() => this.handleConversation(alumni._id)} className="btn btn-primary w-100">Begin a conversation</button>
                   </li>
                 </div>
             );
@@ -83,8 +90,6 @@ class Home extends React.Component {
           }}
         >
           {this.state.alumnis.map((alumni) => {
-              console.log(alumni.locationUser.coordinates[0]);
-              console.log(alumni.locationUser.coordinates[1]);
               <Marker
                key={alumni._id} 
                coordinates={[alumni.locationUser.coordinates[1],
@@ -108,4 +113,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);

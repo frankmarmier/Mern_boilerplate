@@ -7,8 +7,8 @@ export class Channel extends Component {
 
     render() {
         return (
-            <div className='channel-item' onClick={this.click}>
-                <div>{this.props.name}</div>
+            <div className='channel-item shadow p-3 mb-2 mr-2 bg-white rounded' onClick={this.click}>
+                <div >My conversation with <span className="chanel-name"><b>{this.props.name}</b></span></div>
                 <span>{this.props.participants}</span>
             </div>
         )

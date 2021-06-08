@@ -21,8 +21,8 @@ const ChatMessage = (props) => {
 
 
     return (
-        <div>
-            <Chat />
+        <div className="d-flex justify-content-center align-items-center">
+            <Chat  alumni = {props.alumni} users={props.users} />
         </div>
     )
 }
