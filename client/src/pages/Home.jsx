@@ -1,28 +1,41 @@
 import React, { Component } from "react";
-import ReactMapboxGl, { GeoJSONLayer, Marker } from 'react-mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import ReactMapboxGl, {
+  GeoJSONLayer,
+  Marker,
+  Layer,
+  Feature,
+} from "react-mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
 import ListAlumni from "../components/ListAlumni";
 import qpv from "../qpvDB.json";
+import QpvsData from "../qpv.json";
+import { useState } from "react";
 
-console.log(process.env.REACT_APP_MAPBOX_TOKEN)
+// console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 const Map = ReactMapboxGl({
-  accessToken:
-    process.env.REACT_APP_MAPBOX_TOKEN
+  accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
-
 
 class Home extends React.Component {
   state = {
     alumnis: [],
     searchValue: '',
     loading: true,
+    lng: "", // Default lng and lat set to the center of paris.
+    lat: "",
+  };
+
+
+  handleClick = (selectedItem) => {
+    // WHO THE PARENT 
+    this.props.handleSelectItem(selectedItem);
   };
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/api/alumni")
+      .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni")
       .then((usersResponse) => {
         console.log(usersResponse);
         this.setState({
@@ -69,11 +82,12 @@ class Home extends React.Component {
     return (
       <div>
         <h1>Take Your Chance ∆</h1>
+
         <div>
-          <SearchBar 
+          {/* <SearchBar 
             handleChange={this.handleSearchValue}
             value={this.state.searchValue}         
-          />
+          /> */}
           <div>
             <div>
               <ul>
@@ -98,32 +112,51 @@ class Home extends React.Component {
           zoom={[14]}
           style="mapbox://styles/mapbox/streets-v9"
           containerStyle={{
-            height: '100vh',
-            width: '100vw'
+            height: "100vh",
+            width: "100vw",
           }}
         >
           {this.state.alumnis.map((alumni) => {
-              console.log(alumni.locationUser.coordinates[0]);
-              console.log(alumni.locationUser.coordinates[1]);
-              
+            console.log(alumni.locationUser.coordinates[0]);
+            console.log(alumni.locationUser.coordinates[1]);
+
+            return !alumni.locationUser.coordinates[0] ||
+            !alumni.locationUser.coordinates[1] ?
               <Marker
-               key={alumni._id} 
-               coordinates={[alumni.locationUser.coordinates[1],
-                alumni.locationUser.coordinates[0]]}>
-                <img 
-                src= {alumni.image} 
-                alt="alumni"
-                style={{
-                  width: 70,
-                  height: 70,
-                }}
+                key={alumni._id}
+                coordinates={[
+                  2.2,
+                  48.93
+                ]}
+                anchor="bottom"
+              >
+                <img
+                  src={alumni.image}
+                  alt="alumni"
+                  style={{
+                    width: 70,
+                    height: 70,
+                  }}
+                />
+              </Marker> : <Marker
+                key={alumni._id}
+                coordinates={[alumni.locationUser.coordinates[0],
+                  alumni.locationUser.coordinates[1]
+                ]}
+                anchor="bottom"
+              >
+                <img
+                  src={alumni.image}
+                  alt="alumni"
+                  style={{
+                    width: 70,
+                    height: 70,
+                  }}
                 />
               </Marker>
           })}
 
         </Map>
-        
-
       </div>
     );
   }
