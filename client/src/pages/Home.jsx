@@ -8,6 +8,11 @@ import ReactMapboxGl, {
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
+<<<<<<< HEAD
+=======
+import ListAlumni from "../components/ListAlumni";
+import qpv from "../qpvDB.json";
+>>>>>>> master
 import QpvsData from "../qpv.json";
 import AlumniDisplay from "../components/AlumniDisplay";
 
@@ -19,6 +24,8 @@ const Map = ReactMapboxGl({
 class Home extends React.Component {
   state = {
     alumnis: [],
+    searchValue: '',
+    loading: true,
     lng: "", // Default lng and lat set to the center of paris.
     lat: "",
     clickedAlumni:null,
@@ -45,48 +52,88 @@ class Home extends React.Component {
       });
   };
 
-
   componentDidMount() {
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni")
       .then((usersResponse) => {
-        console.log(usersResponse.data);
-        this.setState({ alumnis: usersResponse.data });
+        console.log(usersResponse);
+        this.setState({
+          alumnis: usersResponse.data,
+          loading: false,
+        });
       })
       .catch((error) => {
         console.log(error);
+        this.setState({
+          loading: false,
+        })
       });
-  }
+  };
+
+  handleSearchValue = (value) => {
+    console.log(value);
+
+    this.setState({
+      searchValue: value.toLowerCase(),
+    });
+  };
 
   render() {
+<<<<<<< HEAD
     console.log(this.state.clickedAlumni);
+=======
+    if (this.state.loading) {
+      return <div>Loading...</div>;
+    }
+
+    if (!this.state.alumnis) {
+      return <div>Nous n'avons pas trouvé de profil {":'("}</div>;
+    }
+
+>>>>>>> master
     console.log(this.state.alumnis);
+
+    const filteredAlumnis = this.state.alumnis.filter((alumni) => {
+      
+      console.log(alumni.neighborhood);
+      return (
+        alumni.neighborhood
+        .toLowerCase()
+        .includes(this.state.SearchValue));  
+    })
+
     return (
       <div>
         <h1>Take Your Chance ∆</h1>
 
         <div>
           {/* <SearchBar 
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}         
+            handleChange={this.handleSearchValue}
+            value={this.state.searchValue}         
           /> */}
-          <ul>
-            {this.state.alumnis.map((alumni) => {
-              return (
-                <div>
-                  <li key={alumni.id}>
-                    {alumni.firstName} {alumni.lastName}
-                    <br />
-                    <p>{alumni.industry}</p>
-                    <p>{alumni.work}</p>
-                    <p>{alumni.studies}</p>
-                  </li>
-                </div>
-              );
-            })}
-          </ul>
+          <div>
+            <div>
+              <ul>
+                {this.state.alumnis.map((alumni) => {
+                  return (
+                    <div>
+                      <li key={alumni.id}>
+                        {alumni.firstName} {alumni.lastName}<br/>
+                        <p>{alumni.industry}</p>
+                        <p>{alumni.work}</p>
+                        <p>{alumni.studies}</p>                       
+                      </li>
+                  </div>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
         </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         <Map
           center={[2.333333, 48.866667]}
           zoom={[14]}

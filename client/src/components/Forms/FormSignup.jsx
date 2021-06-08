@@ -11,7 +11,7 @@ class FormSignup extends Component {
     password: "",
     status: "",
     locationUser: { coordinates: [] },
-    formattedAddress: "",
+    address: "",
     neighborhood: "",
     city: "",
     dept: "",
