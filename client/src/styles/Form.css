@@ -35,6 +35,10 @@ input {
     margin: 5px
 }
 
+* {
+    letter-spacing: 0.05em;
+}
+
 .primary-button {
     width: 100px;
     height: 80%;
