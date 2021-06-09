@@ -17,7 +17,7 @@ export class NavMain extends Component {
       this.setState({
            buttonColor: this.generateRGBColor(),
       })
- }, 1000);
+ }, 200);
   }
 
   generateRGBColor(){
