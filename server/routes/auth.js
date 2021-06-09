@@ -143,4 +143,15 @@ router.patch(
   }
 );
 
+router.delete("/delete", (req, res, next) => {
+console.log(req.session.currentUser.id)
+  if(req.session.currentUser) {
+      User.findByIdAndDelete(req.session.currentUser.id)
+          .then((deletedUser) => {
+              res.status(202).json(deletedUser);
+          })
+          .catch(next);
+  } 
+});
+
 module.exports = router;

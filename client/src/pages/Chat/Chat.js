@@ -4,7 +4,7 @@ import  MessagesPannel from './MessagesPannel';
 import '../../styles/chat.css';
 import axios from 'axios';
 import socketClient from "socket.io-client";
-const SERVER = "http://127.0.0.1:8888";
+const SERVER = process.env.REACT_APP_BACKEND_URL;
 export class Chat extends Component {
     state = {
         channels: null,

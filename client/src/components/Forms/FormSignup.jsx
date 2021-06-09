@@ -94,11 +94,12 @@ class FormSignup extends Component {
       fd.append("image", this.imageRef.current.files[0]);
     }
 
+    const { context } = this.props;
     apiHandler
       .signup(this.state)
       .then((data) => {
-        console.log(data)
-        this.props.context.setUser(data);
+        context.setUser(data);
+
         this.props.history.push('/')
       })
       .catch((error) => {

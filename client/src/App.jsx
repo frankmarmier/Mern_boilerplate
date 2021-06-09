@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { withUser } from "./components/Auth/withUser";
 import socketClient from "socket.io-client";
 import FormProfile from './components/Forms/FormProfile'
-const SERVER = "http://127.0.0.1:8888";
+const SERVER = process.env.REACT_APP_BACKEND_URL;
 
 export class App extends Component {
   state={

@@ -57,6 +57,13 @@ const apiHandler = {
       .then((res) => res.data)
       .catch(errorHandler);
   },
+
+  deleteUserAccount() {
+    return service
+      .delete("/api/auth/delete")
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
 };
 
 export default apiHandler;
