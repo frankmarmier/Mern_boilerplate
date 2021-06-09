@@ -268,8 +268,8 @@ class Home extends React.Component {
               </Marker>
             ) : (
               
-              <Cluster ClusterMarkerFactory={this.clusterMarker}>
-                {
+              //<Cluster ClusterMarkerFactory={this.clusterMarker}>
+                //{
               <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
@@ -292,8 +292,8 @@ class Home extends React.Component {
                   }}
                 />
               </Marker>
-            }
-            </Cluster>
+            //}
+            //</div></Cluster>
             );
           })}
           {this.state.clickedAlumni && (
