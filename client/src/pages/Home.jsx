@@ -10,10 +10,13 @@ import axios from "axios";
 import SearchBar from "../components/SearchBar";
 import qpv from "../qpvDB.json";
 import QpvsData from "../qpv.json";
+
+import { withRouter } from "react-router-dom";
+
 import AlumniDisplay from "../components/AlumniDisplay";
 import AutoComplete from "../components/AutoComplete";
 
-// console.log(process.env.REACT_APP_MAPBOX_TOKEN)
+
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
@@ -28,14 +31,24 @@ class Home extends React.Component {
     clickedAlumni: null,
     cityCenter: null,
     isAdress: false,
+  
+
+
   };
 
-  handleSearchValue = (place) => {
-    console.log(place);
-    console.log(place.context.length);
-    console.log(place.center);
-    console.log(place.center[1]);
+   // componentDidMount() {
+  //   axios.get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
+  //   .then(response => {
+  //     console.log("HOME", response.data);
+  //   })
+  //   .catch(e => {
+  //     console.log(e);
+  //   });
+  // }
 
+ 
+
+  handleSearchValue = (place) => {
 
     if (place.place_type[0] === "place") {
       this.setState({
@@ -48,7 +61,7 @@ class Home extends React.Component {
       // console.log(cityCenter + "isCity");
     }
     place.context.map((param, i) => {
-    console.log(this.state.isAdress);
+
 
       if (param.id.includes("place")) {
         this.setState({ isAdress: true,
@@ -65,19 +78,20 @@ class Home extends React.Component {
    
   };
 
+
   handleClose = () => {
     this.setState({ clickedAlumni: null });
   };
 
   handleClick = (event) => {
     const imgId = event.target.id;
-    console.log(imgId);
+
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni/" + imgId)
       .then((foundAlumni) => {
-        console.log(foundAlumni.data);
+
         this.setState({ clickedAlumni: foundAlumni.data });
-        console.log(this.state.clickedAlumni);
+
       })
       .catch((error) => {
         console.log(error);
@@ -86,13 +100,15 @@ class Home extends React.Component {
 
   componentDidMount() {
     axios
-      .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni")
+
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/alumni`, {withCredentials: true})
+
       .then((usersResponse) => {
-        console.log(usersResponse);
         this.setState({
           alumnis: usersResponse.data,
           loading: false,
         });
+
       })
       .catch((error) => {
         console.log(error);
@@ -102,16 +118,24 @@ class Home extends React.Component {
       });
   }
 
-  // handleSearchValue = (value) => {
-  //   console.log(value);
 
-  //   this.setState({
-  //     searchValue: value.toLowerCase(),
-  //   });
-  // };
+
+  handleConversation = (alumni_id) => {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/chat/conversation`, {alumni_id}, {withCredentials: true})
+    .then((response) => {
+
+      this.props.handleNotification(alumni_id, response.data.alumni_name)
+      this.props.history.push('/chat')
+    })
+  }
+
+
+
+
+
 
   render() {
-    console.log(this.state.clickedAlumni);
+
     if (this.state.loading) {
       return <div>Loading...</div>;
     }
@@ -120,27 +144,21 @@ class Home extends React.Component {
       return <div>Nous n'avons pas trouvé de profil </div>;
     }
 
-    console.log(this.state.alumnis);
+
 
     const filteredAlumnis = this.state.alumnis.filter((alumni) => {
-      console.log(alumni.city);
       return this.state.searchValue && alumni.city === this.state.searchValue;
     });
-    console.log(this.state.searchValue);
 
-    console.log(this.state.cityCenter);
+
 
 
     return (
       <div>
-        <h1>Take Your Chance ∆</h1>
-
         <div>
-          {/* <SearchBar 
-            handleChange={this.handleSearchValue}
-            value={this.state.searchValue}         
-          /> */}
-          <AutoComplete
+          <SearchBar searchValue= {this.state.searchValue} handleSearch={this.handleSearchValue} alumnis={this.state.alumnis}/>
+
+          {/* <AutoComplete
             value={this.state.searchValue}
             onSelect={this.handleSearchValue}
             type="text"
@@ -151,6 +169,7 @@ class Home extends React.Component {
           <div>
             <div>
               <ul>
+
                 {this.state.searchValue &&
                   filteredAlumnis.map((alumni) => {
                     return (
@@ -161,6 +180,8 @@ class Home extends React.Component {
                           <p>{alumni.industry}</p>
                           <p>{alumni.work}</p>
                           <p>{alumni.studies}</p>
+                          <p>{alumni.formattedAddress}</p>
+                          <button onClick={() => this.handleConversation(alumni._id)}>Chat</button>  
                         </li>
                       </div>
                     );
@@ -176,13 +197,16 @@ class Home extends React.Component {
                           <p>{alumni.industry}</p>
                           <p>{alumni.work}</p>
                           <p>{alumni.studies}</p>
+                          <p>{alumni.formattedAddress}</p>
+                          <button onClick={() => this.handleConversation(alumni._id)}>Chat</button>  
                         </li>
                       </div>
                     );
                   })}
+
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <Map
@@ -194,13 +218,13 @@ class Home extends React.Component {
             width: "100vw",
           }}
         >
-          {/* {console.log(cityCenter)} */}
+
           {this.state.alumnis.map((alumni) => {
-            console.log(alumni.locationUser.coordinates[0]);
-            console.log(alumni.locationUser.coordinates[1]);
+
 
             return !alumni.locationUser.coordinates[0] ||
               !alumni.locationUser.coordinates[1] ? (
+
               <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
@@ -246,16 +270,17 @@ class Home extends React.Component {
             );
           })}
 
-          {this.state.clickedAlumni && (
-            <AlumniDisplay
-              item={this.state.clickedAlumni}
-              handleClose={this.handleClose}
-            />
-          )}
+          {this.state.clickedAlumni && 
+          <AlumniDisplay
+            handleConversation={this.handleConversation}
+            item={this.state.clickedAlumni}
+            handleClose={this.handleClose}
+          />}
+
         </Map>
       </div>
     );
   }
 }
 
-export default Home;
+export default withRouter(Home);
