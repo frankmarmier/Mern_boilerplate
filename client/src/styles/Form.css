@@ -8,6 +8,14 @@
 
 }
 
+.round-image {
+    height: 250px;
+    width: 250px;
+    border-radius: 100%;
+    overflow: hidden;
+    margin: 0 auto 20px;
+  }
+
 .form-container-signup {
     box-sizing: border-box;
     z-index: 5;

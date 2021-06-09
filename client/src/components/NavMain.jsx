@@ -55,18 +55,19 @@ export class NavMain extends Component {
 
     return (
       <nav className="NavMain">
-      <NavLink exact to="/">
-        <h3 className="logo">App name</h3>
+      <div className="d-flex align-items-center">
+        <NavLink exact to="/">
+          <h3 className="logo mr-3 purple">Take Your Chance</h3>
 
-      </NavLink>
-      {!this.props.notif && context.isLoggedIn && <NavLink to="/chat" className="alert-message green"><i className=" fas fa-sms"></i> Go to chatroom</NavLink>}
-      {this.props.notif && <NavLink to="/chat"  style={{color: this.state.buttonColor}} onClick={this.handleClick} className="alert-message green"><i className=" fas fa-sms"></i> Message from {this.props.senderName}</NavLink>}
-
+        </NavLink>
+        {!this.props.notif && context.isLoggedIn && <NavLink to="/chat" className="alert-message green"><i className=" fas fa-sms"></i> Go to chatroom</NavLink>}
+      { this.props.notif && <NavLink to="/chat"  style={{color: this.state.buttonColor}} onClick={this.handleClick} className="alert-message green"><i className=" fas fa-sms"></i> Message from {this.props.senderName}</NavLink>}
+      </div>
       <ul className="nav-list">
         {context.isLoggedIn && (
           <React.Fragment>
             <li>
-              <NavLink to="/profile">
+              <NavLink to="/profile/settings">
                 {context.user && context.user.email}
   
 

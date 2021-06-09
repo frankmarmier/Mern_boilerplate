@@ -27,7 +27,8 @@ class Home extends React.Component {
     loading: true,
     lng: "", // Default lng and lat set to the center of paris.
     lat: "",
-    clickedAlumni:null,
+
+
   };
 
    // componentDidMount() {
@@ -50,7 +51,7 @@ class Home extends React.Component {
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni/" + imgId)
       .then((foundAlumni) => {
-        console.log(foundAlumni.data);
+        console.log("foundAlumni.data", foundAlumni.data);
         this.setState({ clickedAlumni: foundAlumni.data });
         console.log(this.state.clickedAlumni);
 
@@ -83,10 +84,9 @@ class Home extends React.Component {
 
 
   handleConversation = (alumni_id) => {
-
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/chat/conversation`, {alumni_id}, {withCredentials: true})
     .then((response) => {
-      console.log(response.data)
+
       this.props.handleNotification(alumni_id, response.data.alumni_name)
       this.props.history.push('/chat')
     })
@@ -167,11 +167,10 @@ class Home extends React.Component {
         >
           {this.state.alumnis.map((alumni) => {
 
-            console.log(alumni.locationUser.coordinates[0]);
-            console.log(alumni.locationUser.coordinates[1]);
 
-            return !alumni.locationUser.coordinates[0] ||
-            !alumni.locationUser.coordinates[1] ?
+
+            return !alumni.locationUser?.coordinates[0] ||
+            !alumni.locationUser?.coordinates[1] ?
 
               <Marker
                 key={alumni._id}
@@ -216,8 +215,9 @@ class Home extends React.Component {
           })}
 
 
-{this.state.clickedAlumni && 
+          {this.state.clickedAlumni && 
           <AlumniDisplay
+            handleConversation={this.handleConversation}
             item={this.state.clickedAlumni}
             handleClose={this.handleClose}
           />}
