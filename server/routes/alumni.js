@@ -7,7 +7,7 @@ router.get("/", (req, res, next) => {
 
     AlumniModel.find()
     .then((alumniResults) => {
-        console.log(alumniResults);
+
         res.status(200).json(alumniResults);
     })
     .catch((error) => {

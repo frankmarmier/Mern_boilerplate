@@ -6,7 +6,10 @@
 
 const app = require("../app");
 const debug = require("debug")("server:server");
-const http = require("http");
+const http = require("http")
+
+
+
 
 /**
  * Get port from environment and store in Express.
@@ -20,12 +23,73 @@ app.set("port", port);
  */
 
 const server = http.createServer(app);
+const io = require('socket.io')(server,   { 
+    cors: {
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
+  }
+
+});
+app.set('socketio', io)
+
+
+const Conversation = require("../models/Conversation");
+const Message = require("../models/Message");
+
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, () => {
+  console.log(`listening on *:${port}`);
+});
+
+io.on('connection', (socket) => { /* socket object may be used to send specific messages to the new connected client */
+  socket.emit('id', socket.id)
+  socket.emit('connection', null);
+  socket.on('channel-join', id => {
+    Conversation.find().then((response) => {
+      response.forEach(c => {
+
+        if (c._id.toString()=== id.toString()) {
+            if (c.sockets.indexOf(socket.id) === (-1)) {
+              c.sockets.push(socket.id);
+              
+              c.participants++;
+              io.emit('channel', c);
+            }
+        } else {
+            let index = c.sockets.indexOf(socket.id);
+            if (index != (-1)) {
+                c.sockets.splice(index, 1);
+                c.participants--;
+                io.emit('channel', c);
+            }
+        }
+        })
+      })
+
+    });
+
+
+  socket.on('send-message', message => {
+    io.emit('message', message);
+  });
+
+  socket.on('send-notification', notification => {
+    console.log(notification)
+    io.emit('notification', notification);
+  });
+
+  
+
+});
+
+
+
 server.on("error", onError);
 server.on("listening", onListening);
 

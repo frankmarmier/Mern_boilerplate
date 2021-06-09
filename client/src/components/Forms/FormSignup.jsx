@@ -4,6 +4,9 @@ import AutoComplete from "../AutoComplete";
 import { withUser } from "../Auth/withUser";
 import apiHandler from "../../api/apiHandler";
 import qpv from "../../qpvDB.json";
+import "../../styles/Form.css";
+import UploadWidget from "../UploadWidget";
+import ImageSignUp from "../../images/sign-in.jpg"
 
 class FormSignup extends Component {
   state = {
@@ -21,12 +24,13 @@ class FormSignup extends Component {
       "https://vignette.wikia.nocookie.net/simpsons/images/1/14/Ralph_Wiggum.png/revision/latest/top-crop/width/360/height/360?cb=20100704163100",
   };
 
+  imageRef = React.createRef();
+
   handleChange = (event) => {
     const value = event.target.value;
     const key = event.target.name;
 
-    console.log(value);
-    console.log(key);
+
 
     if (key === "neighborhood") {
       qpv.map((qpv) => {
@@ -35,20 +39,13 @@ class FormSignup extends Component {
           this.state.city.normalize("NFD").replace(/[\u0300-\u036f]/g, "") ===
             qpv.properties.nom_com
         ) {
-          // console.log("quartier bdd" + qpv.properties.l_nqpv);
-          // console.log(
-          //   "ville trouvée" +
-          //     this.state.city.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-          // );
-          // console.log("coor quartier" + qpv.properties.geo_point_2d);
+
           this.setState({
             coordinates: qpv.properties.geo_point_2d,
             dept: qpv.properties.nom_dept,
             codeDept: qpv.properties.c_dep,
           });
-          console.log(this.state.locationUser);
-          console.log(this.state.locationUser.coordinates);
-          console.log(this.state.locationUser.coordinates[0]);
+
         }
       });
     }
@@ -58,19 +55,18 @@ class FormSignup extends Component {
   };
 
   handlePlace = (place) => {
-    console.log(place);
-    console.log(place.context.length);
+
 
     if (place.place_type[0] === "place") {
       this.setState({ city: place.text });
-      console.log(place.text);
+
     }
     place.context.map((param, i) => {
       if (param.id.includes("place")) {
         this.setState({ city: place.context[i].text });
       }
     });
-    console.log(place.text);
+
     const location = place.geometry;
     this.setState({
       locationUser: location,
@@ -78,277 +74,267 @@ class FormSignup extends Component {
     });
   };
 
+  handleFileSelect = (temporaryURL) => {
+    // Get the temporaryURL from the UploadWidget component and
+    // set the state so we can have a visual feedback on what the image will look like :)
+    this.setState({ tmpUrl: temporaryURL });
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
 
+    const fd = new FormData();
+    for (const key in this.state) {
+      if (key === "image") continue;
+      fd.append(key, this.state[key]);
+      
+    }
+
+    if (this.imageRef.current.files[0]) {
+      fd.append("image", this.imageRef.current.files[0]);
+    }
+
+    const { context } = this.props;
     apiHandler
       .signup(this.state)
       .then((data) => {
-        this.props.context.setUser(data);
+        context.setUser(data);
+
+        this.props.history.push('/')
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  // imageRef = React.createRef()
-  // const fd = new FormData();
-  // const {httpResponse, ...data}= this.state
-  // buildFormData(fd,data)
-  // fd.append("image".this.imageRef.currentFile[0])
 
-  // apiHandler.addItem(fd)
-  // .then((data)=>this.props.addItem(data));
 
   render() {
     if (this.props.context.user) {
       return <Redirect to="/" />;
     }
-    console.log(this.state.city);
-    console.log(this.state);
+
     return (
-      <section className="form-section">
-        <img
-          src={this.state.image}
-          alt="Avatar"
-          style={{
-            verticalAlign: "middle",
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-          }}
-        />
+      <div>
+        <header className="header mt-5 mb-5 d-flex justify-content-center">
+          <h1 className='text-center purple' >
+            Create an account{" "}
+            <span role="img" aria-label="heart">
+              ❤️
+            </span>
+          </h1>
+        </header>
+        <div className="container d-flex align-items-center justify-content-around mb-5">
+          <div className="form-container-signup mb-5">
+          <img
+            src={this.state.image}
+            alt="Avatar"
+            style={{
+              verticalAlign: "middle",
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+            }}
+          />
 
-        <form
-          className="form"
-          onChange={this.handleChange}
-          onSubmit={this.handleSubmit}
-        >
-          <div className="form-group">
-            <label htmlFor="image">Upload image</label>
-            <input
-              id="image"
-              type="file"
-              name="image"
-              onChange={this.handleChange}
-              // value={this.state.image}
-              /**
-               * https://reactjs.org/docs/uncontrolled-components.html#the-file-input-tag
-               */
-              ref={this.inputFileRef}
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="label" htmlFor="status">
-              I am
-            </label>
-            <select
-              className="input"
-              type="select"
-              onChange={this.handleChange}
-              value={this.state.status}
-              id="status"
-              name="status"
-              data-target="row"
+          <form
+            className="d-flex flex-column align-items-center"
+            onChange={this.handleChange}
+            onSubmit={this.handleSubmit}
+          >
+        
+        <UploadWidget
+            ref={this.imageRef}
+            onFileSelect={this.handleFileSelect}
+            name="image"
             >
-              <option value="student">in middle/high school</option>
-              <option value="alumni">a student or professional </option>
-              {/* <option value="stretch" selected>click and select</option> */}
-            </select>
-          </div>
+            Change profile image
+          </UploadWidget>
+          
 
-          {/* <label class="container">One
-  <input type="checkbox" checked="checked">
-  <span class="checkmark"></span>
-</label>
-
-<label class="container">Two
-  <input type="checkbox">
-  <span class="checkmark"></span>
-</label> */}
-
-          <div className="form-group">
-            <label className="label" htmlFor="firstName">
-              First name
-            </label>
-            <input
-              className="input"
-              id="firstName"
-              type="text"
-              name="firstName"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="label" htmlFor="lastName">
-              Last Name
-            </label>
-            <input
-              className="input"
-              id="lastName"
-              type="text"
-              name="lastName"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="label" htmlFor="email">
-              Email
-            </label>
-            <input
-              onChange={this.handleChange}
-              value={this.state.email}
-              type="text"
-              className="input"
-              id="email"
-              name="email"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="label" htmlFor="password">
-              Password
-            </label>
-            <input
-              onChange={this.handleChange}
-              value={this.state.password}
-              type="password"
-              className="input"
-              id="password"
-              name="password"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="label" htmlFor="address">
-              Address
-            </label>
-            <AutoComplete
-              onSelect={this.handlePlace}
-              onChange={this.handleChange}
-              value={this.state.address}
-              type="text"
-              className="input"
-              id="address"
-              name="address"
-              placeholder="to get your (old) neighborhood"
-            />
-          </div>
-
-          {this.state.city && (
-            <div className="form-group">
-              <label className="label" htmlFor="neighborhood">
-                Neighborhood
+            <div className="form-group w-100">
+              <label className="label" htmlFor="status">
+                I am
               </label>
               <select
-                // defaultValue="Select your neighborhood"
-                onChange={this.handleChange}
-                value={this.state.neighborhood}
+                className="w-100 mt-2 p-2"
                 type="select"
-                className="input"
-                id="neighborhood"
-                name="neighborhood"
+                onChange={this.handleChange}
+                value={this.state.status}
+                id="status"
+                name="status"
+                data-target="row"
               >
-                <option disable selected hidden value="none">
-                  Select your neighborhood
-                </option>
-                ;
-                {qpv.map((hood) => {
-                  let normCity = this.state.city
-                    .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "");
-
-                  // console.log(hood.properties);
-                  // let normCom= hood.properties.nom_com.normalize("NFD")
-                  // .replace(/[\u0300-\u036f]/g, "");
-                  // console.log(hood.properties.nom_com)
-                  // console.log(normCity)
-                  if (
-                    hood.properties.nom_com &&
-                    hood.properties.nom_com.includes(normCity)
-                  ) {
-                    return (
-                      <option value={hood.properties.l_nqpv}>
-                        {hood.properties.l_nqpv}
-                      </option>
-                    );
-                  }
-                })}
+                <option value="student">in middle/high school</option>
+                <option value="alumni">a student or professional </option>
+                {/* <option value="stretch" selected>click and select</option> */}
               </select>
             </div>
-          )}
 
-          {/* <div className="form-group">
-            <label className="label" htmlFor="neighborhood">
-              Found neighborhood
-            </label>
+
+
+          
+              <input
+                placeholder="First name"
+                className= " w-100 mt-2" 
+                id="firstName"
+                type="text"
+                name="firstName"
+              />
+        
+
+        
+              <input
+                className= " w-100 mt-2" 
+                placeholder= "Last name"
+                id="lastName"
+                type="text"
+                name="lastName"
+              />
+        
+
+      
+
+              <input
+                placeholder="Email"
+                className= " w-100 mt-2" 
+                onChange={this.handleChange}
+                value={this.state.email}
+                type="text"
+                id="email"
+                name="email"
+              />
+          
+
+          
+              <input
+                className= " w-100 mt-2" 
+                placeholder="Password"
+                onChange={this.handleChange}
+                value={this.state.password}
+                type="password"
+
+                id="password"
+                name="password"
+              />
+          
+
             
-            <input
-              onChange={this.handleChange}
-              value={this.state.neighborhood} // WILL COME FROM KEL QUARTIER
-              type="text"
-              className="input"
-              id="neighborhood"
-              name="neighborhood"
-            />
-          </div> */}
-          {this.state.status === "alumni" && (
-            <div className="alumniPart">
-              <div className="form-group">
-                <label className="label" htmlFor="industry">
-                  Field of work/study
-                </label>
-                <input
-                  onChange={this.handleChange}
-                  value={this.state.industry}
-                  type="text"
-                  className="input"
-                  id="industry"
-                  name="industry"
-                />
-              </div>
+              <AutoComplete
+                onSelect={this.handlePlace}
+                onChange={this.handleChange}
+                value={this.state.address}
+                placeholder= "Address"
+                type="text"
+                className= "w-100 mt-2" 
+                id="address"
+                name="address"
+                placeholder="to get your (old) neighborhood"
+              />
+        
 
+            {this.state.city && (
               <div className="form-group">
-                <label className="label" htmlFor="intro">
-                  Introduction
+                <label className="label" htmlFor="neighborhood">
+                  Neighborhood
                 </label>
-                <input
+                <select
+                  // defaultValue="Select your neighborhood"
                   onChange={this.handleChange}
-                  value={this.state.intro}
-                  type="text"
-                  className="input"
-                  id="intro"
-                  name="intro"
-                />
-              </div>
-              <div className="form-group">
-                <label className="label" htmlFor="linkedin">
-                  Linkedin Profil
-                </label>
-                <input
-                  onChange={this.handleChange}
-                  value={this.state.linkedin}
-                  placeholder="(ex : https://fr.linkedin.com/in/emmanuelmacron)"
-                  type="text"
-                  className="input"
-                  id="linkedin"
-                  name="linkedin"
-                />
-              </div>
-            </div>
-          )}
+                  value={this.state.neighborhood}
+                  type="select"
+                  className= " w-100 mt-2" 
+                  id="neighborhood"
+                  name="neighborhood"
+                >
+                  <option disable selected hidden value="none">
+                    Select your neighborhood
+                  </option>
+                  ;
+                  {qpv.map((hood) => {
+                    let normCity = this.state.city
+                      .normalize("NFD")
+                      .replace(/[\u0300-\u036f]/g, "");
 
-          <button>Submit</button>
-        </form>
 
-        <div className="form-section-bottom">
-          <p>Already have an account? </p>
-          <Link className="link" to="/signin">
-            Log in
-          </Link>
+                    // console.log(hood.properties);
+                    // let normCom= hood.properties.nom_com.normalize("NFD")
+                    // .replace(/[\u0300-\u036f]/g, "");
+                    // console.log(hood.properties.nom_com)
+                    // console.log(normCity)
+                    if (
+                      hood.properties.nom_com &&
+                      hood.properties.nom_com.includes(normCity)
+                    ) {
+
+                      return (
+                        <option value={hood.properties.l_nqpv}>
+                          {hood.properties.l_nqpv}
+                        </option>
+                      );
+                    }
+                  })}
+
+                </select>
+              </div>
+            )}
+
+
+            {this.state.status === "alumni" && (
+              <div className="alumniPart">
+              
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.industry}
+                    type="text"
+                    placeholder= "Field of work/study"
+                    className= " w-100 mt-2" 
+                    id="industry"
+                    name="industry"
+                  />
+              
+
+              
+
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.intro}
+                    type="text"
+                    className= " w-100 mt-2" 
+                    placeholder="Introduction"
+                    id="intro"
+                    name="intro"
+                  />
+              
+                
+                  <input
+                    onChange={this.handleChange}
+                    value={this.state.linkedin}
+                    placeholder="(ex : https://fr.linkedin.com/in/emmanuelmacron)"
+                    type="text"
+                    className= " w-100 mt-2" 
+                    id="linkedin"
+                    name="linkedin"
+                  />
+            
+              </div>
+            )}
+
+            <button className="primary-button w-100 p-2 mt-3" >Submit</button>
+          </form>
+
+          <div className="form-div-bottom mb-5">
+            <p>Already have an account? </p>
+            <Link className="link  mb-5" to="/signin">
+              Log in
+            </Link>
+          </div>
+          </div>
+          <div>
+          <img src={ImageSignUp} alt="start" style={{width: '40vw'}}/>
+          </div>
         </div>
-      </section>
+      </div>
     );
   }
 }

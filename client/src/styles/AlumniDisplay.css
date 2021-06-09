@@ -60,7 +60,7 @@
     margin-top: 10px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
   }
   
   .Item-container .contact-information {
@@ -78,6 +78,7 @@
     margin: 0;
     text-align: center;
     text-transform: capitalize;
+    cursor: pointer
   }
   
   .Item-container .info .description,
@@ -86,8 +87,23 @@
   }
   
   .Item-container .description {
-    background-color: rgb(226, 226, 226);
+    background-color: #ECF3F9;
     padding: 10px;
     border-radius: 10px;
   }
+
+  .purple {
+    color: #24296B
+  }
   
+  .close-link {
+    display: flex;
+    justify-content: flex-end;
+    color: red;
+    font-size: 20px;
+    cursor: pointer
+  }
+
+  .green {
+    color: #3cad95 
+  }

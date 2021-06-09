@@ -67,9 +67,9 @@ class AutocompletePlace extends Component {
   render() {
     const { results, isLoading } = this.state;
     return (
-      <div className="AutocompletePlace">
+      <div className="AutocompletePlace w-100">
         <input
-          className="input"
+          className="w-100 mt-2"
           type="text"
           value={this.props.defaultValue || this.state.search}
           onChange={this.handleSearchChange}
