@@ -1,21 +1,22 @@
-import React from 'react';
-import AutoComplete from "./AutoComplete";
+// import React from 'react';
+// import AutocompletePlace from './AutoComplete';
+// import AutoComplete from "./AutoComplete";
 
-const SearchBar = (props) => {
-  
-  return (
-    <div>
-        <input
-          value={props.value}
-          onChange={(event) => props.handleChange(event.target.value)}
-          type="text"
-          id="header-search"
-          placeholder="Recherche un alumni proche de toi !"
-          name="searchBar"
-        />
+// class SearchBar extends React.Component {
+//   render() {  
+//     return (
+//     <div>
+//         <AutoComplete
+//           value={props.searchValue}
+//           onSelect={() => this.props.handleSearchValue}
+//           type="text"
+//           id="header-search"
+//           placeholder="Recherche un alumni proche de toi !"
+//           name="searchValue"
+//         />
         
-    </div>
-  )
-}
-
-export default SearchBar
+//     </div>
+//   )
+// }
+// }
+// export default SearchBar;

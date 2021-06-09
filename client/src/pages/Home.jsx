@@ -11,6 +11,8 @@ import SearchBar from "../components/SearchBar";
 import qpv from "../qpvDB.json";
 import QpvsData from "../qpv.json";
 import AlumniDisplay from "../components/AlumniDisplay";
+import AutoComplete from "../components/AutoComplete";
+
 
 // console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 const Map = ReactMapboxGl({
@@ -25,8 +27,28 @@ class Home extends React.Component {
     lng: "", // Default lng and lat set to the center of paris.
     lat: "",
     clickedAlumni:null,
+  
   };
 
+
+  handleSearchValue = (place) => {
+    console.log(place);
+    console.log(place.context.length);
+
+    if (place.place_type[0] === "place") {
+      this.setState({ searchValue: place.text
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") });
+      console.log(place.text);
+    }
+    place.context.map((param, i) => {
+      if (param.id.includes("place")) {
+        this.setState({ searchValue: place.context[i].text
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") });
+      }
+    });
+  };
 
   handleClose = () => {
     this.setState({ clickedAlumni: null });
@@ -66,13 +88,13 @@ class Home extends React.Component {
       });
   };
 
-  handleSearchValue = (value) => {
-    console.log(value);
+  // handleSearchValue = (value) => {
+  //   console.log(value);
 
-    this.setState({
-      searchValue: value.toLowerCase(),
-    });
-  };
+  //   this.setState({
+  //     searchValue: value.toLowerCase(),
+  //   });
+  // };
 
   render() {
     console.log(this.state.clickedAlumni);
@@ -88,10 +110,9 @@ class Home extends React.Component {
 
     const filteredAlumnis = this.state.alumnis.filter((alumni) => {
       
-      console.log(alumni.neighborhood);
+      console.log(alumni.city);
       return (
-        alumni.neighborhood && alumni.neighborhood.toLowerCase()
-        .includes(this.state.SearchValue));
+        this.state.searchValue && (alumni.city===this.state.searchValue));
     })
 
     return (
@@ -99,14 +120,37 @@ class Home extends React.Component {
         <h1>Take Your Chance ∆</h1>
 
         <div>
-          <SearchBar 
+          {/* <SearchBar 
             handleChange={this.handleSearchValue}
             value={this.state.searchValue}         
-          />
+          /> */}
+          <AutoComplete
+          value={this.state.searchValue}
+          onSelect={this.handleSearchValue}
+          type="text"
+          id="header-search"
+          placeholder="Recherche un alumni proche de toi !"
+          name="searchValue"
+        />
           <div>
             <div>
               <ul>
-                {this.state.alumnis.map((alumni) => {
+              { this.state.searchValue && filteredAlumnis.map((alumni) => {
+
+return (
+  <div>
+    <li key={alumni.id}>
+      {alumni.firstName} {alumni.lastName}<br/>
+      <p>{alumni.industry}</p>
+      <p>{alumni.work}</p>
+      <p>{alumni.studies}</p>                       
+    </li>
+</div>
+);
+})}
+
+                { !this.state.searchValue && this.state.alumnis.map((alumni) => {
+
                   return (
                     <div>
                       <li key={alumni.id}>
