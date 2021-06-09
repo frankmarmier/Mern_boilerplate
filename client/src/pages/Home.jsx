@@ -4,6 +4,7 @@ import ReactMapboxGl, {
   Marker,
   Layer,
   Feature,
+  Cluster,
 } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
@@ -13,10 +14,14 @@ import QpvsData from "../qpv.json";
 import AlumniDisplay from "../components/AlumniDisplay";
 import AutoComplete from "../components/AutoComplete";
 
+
 // console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
+
+
+
 
 class Home extends React.Component {
   state = {
@@ -28,7 +33,14 @@ class Home extends React.Component {
     clickedAlumni: null,
     cityCenter: null,
     isAdress: false,
+    cluster: false,
   };
+
+  clusterMarker = (coordinates) => (
+    <Marker coordinates={coordinates} >
+      C
+    </Marker>
+    );
 
   handleSearchValue = (place) => {
     console.log(place);
@@ -110,6 +122,7 @@ class Home extends React.Component {
   //   });
   // };
 
+
   render() {
     console.log(this.state.clickedAlumni);
     if (this.state.loading) {
@@ -130,6 +143,7 @@ class Home extends React.Component {
 
     console.log(this.state.cityCenter);
 
+    
 
     return (
       <div>
@@ -193,7 +207,9 @@ class Home extends React.Component {
             height: "100vh",
             width: "100vw",
           }}
-        >
+        > 
+          
+          
           {/* {console.log(cityCenter)} */}
           {this.state.alumnis.map((alumni) => {
             console.log(alumni.locationUser.coordinates[1]);
@@ -221,6 +237,9 @@ class Home extends React.Component {
                 />
               </Marker>
             ) : (
+              
+              <Cluster ClusterMarkerFactory={this.clusterMarker}>
+                {
               <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
@@ -243,9 +262,10 @@ class Home extends React.Component {
                   }}
                 />
               </Marker>
+            }
+            </Cluster>
             );
           })}
-
           {this.state.clickedAlumni && (
             <AlumniDisplay
               item={this.state.clickedAlumni}

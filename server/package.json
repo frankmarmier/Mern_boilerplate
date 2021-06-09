@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./bin/www",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "build": "react-scripts build"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
