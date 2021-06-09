@@ -10,10 +10,13 @@ const MongoStore = require("connect-mongo");
 const cors = require("cors");
 
 const app = express();
+
+
 /**
  * Middlewares
  */
 const corsOptions = { origin: process.env.FRONTEND_URL, credentials: true };
+
 
 app.use(cors(corsOptions));
 app.use(logger("dev")); // This logs HTTP reponses in the console.
@@ -45,17 +48,21 @@ app.use(
  */
 
 const authRouter = require("./routes/auth");
+const chatRouter = require("./routes/chat");
 
 app.use("/api/auth", authRouter);
+app.use("/api/chat", chatRouter);
 
 const alumniRouter = require("./routes/alumni");
 app.use("/api/alumni", alumniRouter);
 
 // 404 Middleware
 app.use((req, res, next) => {
-  const err = new Error("Ressource not found.");
-  err.status = 404;
-  next(err);
+
+  const error = new Error("Ressource not found.");
+  error.status = 404;
+  next(error);
+
 });
 
 // Error handler middleware
@@ -79,5 +86,9 @@ app.use((err, req, res, next) => {
     }
   }
 });
+
+
+
+
 
 module.exports = app;

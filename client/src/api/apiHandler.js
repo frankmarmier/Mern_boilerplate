@@ -44,12 +44,26 @@ const apiHandler = {
       .catch(errorHandler);
   },
 
-  // getItems() {
-  //   return service
-  //     .get("/api/items")
-  //     .then((res) => res.data)
-  //     .catch(errorHandler);
-  // },
+  updateUser(data) {
+    return service
+      .patch("/api/auth/settings", data)
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  getUserInfos() {
+    return service
+      .get("/api/auth/profile")
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
+
+  deleteUserAccount() {
+    return service
+      .delete("/api/auth/delete")
+      .then((res) => res.data)
+      .catch(errorHandler);
+  },
 };
 
 export default apiHandler;

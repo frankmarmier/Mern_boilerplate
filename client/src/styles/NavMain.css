@@ -1,17 +1,22 @@
 .NavMain {
-  background-color: transparent;
-  color: rgb(57, 57, 57);
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  height: 70px;
-}
-
-.NavMain .nav-list {
-  margin-left: auto;
-  display: flex;
-}
-
-.NavMain .nav-list li:not(:last-child) {
-  margin-right: 20px;
-}
+    background-color: transparent;
+    color: rgb(57, 57, 57);
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    height: 70px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0px;
+    border-bottom: 1px solid rgba(133, 153, 184, 0.09);
+    box-shadow: rgb(199 199 199 / 50%) 0px 2px 4px 0px;
+  }
+  
+  .NavMain .nav-list {
+    margin-left: auto;
+    display: flex;
+  }
+  
+  .NavMain .nav-list li:not(:last-child) {
+    margin-right: 20px;
+  }
+  
