@@ -177,11 +177,11 @@ return (
           }}
         >
           {this.state.alumnis.map((alumni) => {
-            console.log(alumni.locationUser.coordinates[0]);
             console.log(alumni.locationUser.coordinates[1]);
+            console.log(alumni.locationUser.coordinates[0]);
 
-            return !alumni.locationUser.coordinates[0] ||
-            !alumni.locationUser.coordinates[1] ?
+            return !alumni.locationUser.coordinates[1] ||
+            !alumni.locationUser.coordinates[0] ?
               <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
@@ -205,8 +205,8 @@ return (
               </Marker> : <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
-                coordinates={[alumni.locationUser.coordinates[0],
-                  alumni.locationUser.coordinates[1]
+                coordinates={[alumni.locationUser.coordinates[1],
+                  alumni.locationUser.coordinates[0]
                 ]}
                 anchor="bottom"
               >
