@@ -2,7 +2,7 @@ import React from "react";
 import Chat from './Chat'
 import { withUser } from "../../components/Auth/withUser";
 import socketClient  from "socket.io-client";
-const SERVER = "http://127.0.0.1:8888";
+const SERVER = process.env.REACT_APP_BACKEND_URL;
 
 const ChatMessage = (props) => {
 
