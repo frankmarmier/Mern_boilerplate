@@ -135,7 +135,19 @@ class Home extends React.Component {
       <div>
         <h1>Take Your Chance ∆</h1>
 
-        <div>
+        
+
+        <Map
+          center={ this.state.cityCenter ? this.state.cityCenter :[2.333333, 48.866667]}
+          zoom={[10]}
+          style="mapbox://styles/mapbox/streets-v9"
+          containerStyle={{
+            height: "100vh",
+            width: "100vw",
+          }}
+        >
+
+<div>
           {/* <SearchBar 
             handleChange={this.handleSearchValue}
             value={this.state.searchValue}         
@@ -149,13 +161,13 @@ class Home extends React.Component {
             name="searchValue"
           />
           <div>
-            <div>
-              <ul>
+            <div >
+              <ul className="Item-container">
                 {this.state.searchValue &&
                   filteredAlumnis.map((alumni) => {
                     return (
                       <div>
-                        <li key={alumni.id}>
+                        <li key={alumni.id} className="CardItem">
                           {alumni.firstName} {alumni.lastName}
                           <br />
                           <p>{alumni.industry}</p>
@@ -170,7 +182,7 @@ class Home extends React.Component {
                   this.state.alumnis.map((alumni) => {
                     return (
                       <div>
-                        <li key={alumni.id}>
+                        <li key={alumni.id} className="CardItem">
                           {alumni.firstName} {alumni.lastName}
                           <br />
                           <p>{alumni.industry}</p>
@@ -184,16 +196,6 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-
-        <Map
-          center={ this.state.cityCenter ? this.state.cityCenter :[2.333333, 48.866667]}
-          zoom={[10]}
-          style="mapbox://styles/mapbox/streets-v9"
-          containerStyle={{
-            height: "100vh",
-            width: "100vw",
-          }}
-        >
           {/* {console.log(cityCenter)} */}
           {this.state.alumnis.map((alumni) => {
             console.log(alumni.locationUser.coordinates[0]);
