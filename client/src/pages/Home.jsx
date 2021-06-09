@@ -7,13 +7,14 @@ import ReactMapboxGl, {
 } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
-import SearchBar from "../components/SearchBar";
+//import SearchBar from "../components/SearchBar";
 import qpv from "../qpvDB.json";
 import QpvsData from "../qpv.json";
 
 import { withRouter } from "react-router-dom";
 
 import AlumniDisplay from "../components/AlumniDisplay";
+import AutoComplete from "../components/AutoComplete";
 
 
 const Map = ReactMapboxGl({
@@ -23,10 +24,14 @@ const Map = ReactMapboxGl({
 class Home extends React.Component {
   state = {
     alumnis: [],
-    searchValue: '',
+    searchValue: "",
     loading: true,
     lng: "", // Default lng and lat set to the center of paris.
     lat: "",
+    clickedAlumni: null,
+    cityCenter: null,
+    isAdress: false,
+  
 
 
   };
@@ -41,20 +46,57 @@ class Home extends React.Component {
   //   });
   // }
 
+ 
+
+  handleSearchValue = (place) => {
+    console.log(place);
+    console.log(place.context.length);
+    console.log(place.center);
+    console.log(place.center[1]);
+
+
+    if (place.place_type[0] === "place") {
+      this.setState({
+        searchValue: place.text
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, ""),
+          cityCenter: place.center
+      });
+      // console.log(place.text);
+      // console.log(cityCenter + "isCity");
+    }
+    place.context.map((param, i) => {
+    console.log(this.state.isAdress);
+
+      if (param.id.includes("place")) {
+        this.setState({ isAdress: true,
+          searchValue: place.context[i].text
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, ""),
+         
+          cityCenter: place.center
+        });
+        // console.log(cityCenter + "isAdress");
+      }
+    });
+
+   
+  };
+
+
   handleClose = () => {
     this.setState({ clickedAlumni: null });
   };
 
   handleClick = (event) => {
-    const imgId = event.target.id
-    console.log(imgId)
+    const imgId = event.target.id;
+    console.log(imgId);
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni/" + imgId)
       .then((foundAlumni) => {
         console.log("foundAlumni.data", foundAlumni.data);
         this.setState({ clickedAlumni: foundAlumni.data });
         console.log(this.state.clickedAlumni);
-
       })
       .catch((error) => {
         console.log(error);
@@ -78,9 +120,10 @@ class Home extends React.Component {
         console.log(error);
         this.setState({
           loading: false,
-        })
+        });
       });
-  };
+  }
+
 
 
   handleConversation = (alumni_id) => {
@@ -93,13 +136,11 @@ class Home extends React.Component {
   }
 
 
-  handleSearchValue = (value) => {
-    console.log(value);
 
-    this.setState({
-      searchValue: value.toLowerCase(),
-    });
-  };
+  //   this.setState({
+  //     searchValue: value.toLowerCase(),
+  //   });
+  // };
 
 
   render() {
@@ -107,7 +148,7 @@ class Home extends React.Component {
     if (this.state.loading) {
       return <div>Loading...</div>;
     }
-
+    // console.log(cityCenter + "render");
     if (!this.state.alumnis) {
       return <div>Nous n'avons pas trouvé de profil </div>;
     }
@@ -115,12 +156,13 @@ class Home extends React.Component {
 
 
     const filteredAlumnis = this.state.alumnis.filter((alumni) => {
-      
-      console.log(alumni.neighborhood);
-      return (
-        alumni.neighborhood && alumni.neighborhood.toLowerCase()
-        .includes(this.state.SearchValue));
-    })
+      console.log(alumni.city);
+      return this.state.searchValue && alumni.city === this.state.searchValue;
+    });
+    console.log(this.state.searchValue);
+
+    console.log(this.state.cityCenter);
+
 
 
     return (
@@ -129,15 +171,18 @@ class Home extends React.Component {
 
         <div>
 
-
-
-          <SearchBar 
-            handleChange={this.handleSearchValue}
-            value={this.state.searchValue}         
+          <AutoComplete
+            value={this.state.searchValue}
+            onSelect={this.handleSearchValue}
+            type="text"
+            id="header-search"
+            placeholder="Recherche un alumni proche de toi !"
+            name="searchValue"
           />
           <div>
             <div>
               <ul>
+
                 {this.state.alumnis.map((alumni) => {
                   return (
                     <div key={alumni._id}>
@@ -151,34 +196,63 @@ class Home extends React.Component {
                   </div>
                   );
                 })}
+
+                {this.state.searchValue &&
+                  filteredAlumnis.map((alumni) => {
+                    return (
+                      <div>
+                        <li key={alumni.id}>
+                          {alumni.firstName} {alumni.lastName}
+                          <br />
+                          <p>{alumni.industry}</p>
+                          <p>{alumni.work}</p>
+                          <p>{alumni.studies}</p>
+                        </li>
+                      </div>
+                    );
+                  })}
+
+                {!this.state.searchValue &&
+                  this.state.alumnis.map((alumni) => {
+                    return (
+                      <div>
+                        <li key={alumni.id}>
+                          {alumni.firstName} {alumni.lastName}
+                          <br />
+                          <p>{alumni.industry}</p>
+                          <p>{alumni.work}</p>
+                          <p>{alumni.studies}</p>
+                        </li>
+                      </div>
+                    );
+                  })}
+
               </ul>
             </div>
           </div>
         </div>
 
         <Map
-          center={[2.333333, 48.866667]}
-          zoom={[14]}
+          center={ this.state.cityCenter ? this.state.cityCenter :[2.333333, 48.866667]}
+          zoom={[10]}
           style="mapbox://styles/mapbox/streets-v9"
           containerStyle={{
             height: "100vh",
             width: "100vw",
           }}
         >
+          {/* {console.log(cityCenter)} */}
           {this.state.alumnis.map((alumni) => {
 
 
-
-            return !alumni.locationUser?.coordinates[0] ||
-            !alumni.locationUser?.coordinates[1] ?
+            return !alumni.locationUser.coordinates[0] ||
+              !alumni.locationUser.coordinates[1] ? (
 
               <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
-                coordinates={[
-                  2.2,
-                  48.93
-                ]}
+                coordinates={[2.2, 48.93]}
+                zoom={[12]}
                 anchor="bottom"
               >
                 <img
@@ -192,11 +266,15 @@ class Home extends React.Component {
                     // markerOffset:2em;
                   }}
                 />
-              </Marker> : <Marker
+              </Marker>
+            ) : (
+              <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
-                coordinates={[alumni.locationUser.coordinates[0],
-                  alumni.locationUser.coordinates[1]
+                zoom={[7]}
+                coordinates={[
+                  alumni.locationUser.coordinates[0],
+                  alumni.locationUser.coordinates[1],
                 ]}
                 anchor="bottom"
               >
@@ -212,8 +290,8 @@ class Home extends React.Component {
                   }}
                 />
               </Marker>
+            );
           })}
-
 
           {this.state.clickedAlumni && 
           <AlumniDisplay
@@ -221,6 +299,7 @@ class Home extends React.Component {
             item={this.state.clickedAlumni}
             handleClose={this.handleClose}
           />}
+
         </Map>
       </div>
     );
