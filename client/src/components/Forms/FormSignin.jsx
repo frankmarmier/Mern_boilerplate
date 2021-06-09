@@ -40,7 +40,7 @@ class FormSignin extends Component {
       <div className="container d-flex align-items-center justify-content-center">
       <div className="form-container">
         <header className="header mt-5 mb-5">
-          <h1 className='text-center' >
+          <h1 className='text-center purple' >
             Welcome back{" "}
             <span role="img" aria-label="heart">
               💙

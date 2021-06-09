@@ -188,7 +188,7 @@ export class FormProfile extends Component {
         return (
             <div className="d-flex flex-column align-items-center justify-content-center">
               <header className="header mt-5 mb-2 d-flex justify-content-center">
-                  <h1 className='text-center' >Edit profile<span role="img" aria-label="heart">
+                  <h1 className='text-center purple' >Edit profile<span role="img" aria-label="heart">
                       ❤️
                   </span></h1>
               </header>
