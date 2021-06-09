@@ -58,19 +58,10 @@ const alumniRouter = require("./routes/alumni");
 app.use("/api/alumni", alumniRouter);
 
 // 404 Middleware
-<<<<<<< HEAD
 app.use("/api/*",(req, res, next) => {
   const err = new Error("Ressource not found.");
   err.status = 404;
   next(err);
-=======
-app.use((req, res, next) => {
-
-  const error = new Error("Ressource not found.");
-  error.status = 404;
-  next(error);
-
->>>>>>> master
 });
 
 // ...routes 
