@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import ReactMapboxGl, {
   GeoJSONLayer,
@@ -21,6 +22,8 @@ import AutoComplete from "../components/AutoComplete";
 import "../styles/global.css"
 // import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker';
 
+
+// console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
@@ -110,6 +113,7 @@ class Home extends React.Component {
   }
 
 
+
   componentDidMount() {
     axios
 
@@ -188,61 +192,18 @@ class Home extends React.Component {
             alumnis={this.state.alumnis}
             handleLocalizeSelf={this.handleLocalize} 
         />
-        <AlumniList
-            handleCard = {this.handleCard}
-            searchValue={this.state.searchValue}
-            alumnis={this.state.alumnis}
-        />
-          {/* <AutoComplete
-            value={this.state.searchValue}
-            onSelect={this.handleSearchValue}
-            type="text"
-            id="header-search"
-            placeholder="Recherche un alumni proche de toi !"
-            name="searchValue"
-          />
-          <div>
-            <div>
-              <ul>
-
-                {this.state.searchValue &&
-                  filteredAlumnis.map((alumni) => {
-                    return (
-                      <div>
-                        <li key={alumni.id}>
-                          {alumni.firstName} {alumni.lastName}
-                          <br />
-                          <p>{alumni.industry}</p>
-                          <p>{alumni.work}</p>
-                          <p>{alumni.studies}</p>
-                          <p>{alumni.formattedAddress}</p>
-                          <button onClick={() => this.handleConversation(alumni._id)}>Chat</button>  
-                        </li>
-                      </div>
-                    );
-                  })}
-
-                {!this.state.searchValue &&
-                  this.state.alumnis.map((alumni) => {
-                    return (
-                      <div>
-                        <li key={alumni.id}>
-                          {alumni.firstName} {alumni.lastName}
-                          <br />
-                          <p>{alumni.industry}</p>
-                          <p>{alumni.work}</p>
-                          <p>{alumni.studies}</p>
-                          <p>{alumni.formattedAddress}</p>
-                          <button onClick={() => this.handleConversation(alumni._id)}>Chat</button>  
-                        </li>
-                      </div>
-                    );
-                  })}
-
-              </ul>
-            </div>
-          </div> */}
         </div>
+
+        {this.props.handleAbout && <div >
+          
+            <div className="d-flex justify-content-center">
+            <div className="About-container p-5 mb-5 " style={{width:"800px"}}>  
+            <div onClick={() => this.props.closeAbout()} className="w-100 d-flex justify-content-end mb-2 green"><i style={{cursor: "pointer", border: "1px solid", padding: "6px", borderRadius: "50%"}} className="fas fa-times"></i></div>
+            <p>Empower the youth from disadvantage area with a map of professionnals coming from the same location. As a user you can access a list/map of professionals near your/an adress/neighborhood. 
+            </p>
+            </div>
+            </div>
+          </div>}
 
         <Map
           center={ this.state.cityCenter ? this.state.cityCenter :[2.333333, 48.866667]}
@@ -253,6 +214,11 @@ class Home extends React.Component {
             width: "100vw",
           }}
         >
+          <AlumniList
+            handleCard = {this.handleCard}
+            searchValue={this.state.searchValue}
+            alumnis={this.state.alumnis}
+        />
 
           {this.state.alumnis.map((alumni) => {
 
@@ -309,6 +275,8 @@ class Home extends React.Component {
             );
           })}
 
+     
+
           {this.state.clickedAlumni && 
           <AlumniDisplay
             handleConversation={this.handleConversation}
@@ -323,4 +291,3 @@ class Home extends React.Component {
 }
 
 export default withRouter(Home);
-

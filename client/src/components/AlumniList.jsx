@@ -32,7 +32,7 @@ class AlumniList extends Component {
               return (
                 <div key={alumni._id}>
                 <li className="listedAlumni">
-                <p> {alumni.firstName} {alumni.lastName} | {alumni.industry}</p>
+                <p> {alumni.firstName} {alumni.lastName} | {alumni.industry} | <span style={{cursor: "pointer"}} onClick={() => {this.handleClick(alumni._id)}}>👁</span></p>
                 <p>{alumni.work} {alumni.studies}</p>
                 <p>{alumni.hood}</p>
                 </li>
