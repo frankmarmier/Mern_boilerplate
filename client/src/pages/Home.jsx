@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import ReactMapboxGl, {
   GeoJSONLayer,
@@ -19,11 +20,13 @@ import AlumniDisplay from "../components/AlumniDisplay";
 import AutoComplete from "../components/AutoComplete";
 
 
-
-
+// console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 class Home extends React.Component {
   state = {
@@ -49,9 +52,6 @@ class Home extends React.Component {
   //     console.log(e);
   //   });
   // }
-
-  // eslint-disable-next-line import/no-webpack-loader-syntax
-  mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
  
 
   handleSearchValue = (place) => {
