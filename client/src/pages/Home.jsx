@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import ReactMapboxGl, {
   GeoJSONLayer,
@@ -18,8 +19,9 @@ import { withRouter } from "react-router-dom";
 
 import AlumniDisplay from "../components/AlumniDisplay";
 import AutoComplete from "../components/AutoComplete";
-import "../styles/global.css"
 
+
+// console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
@@ -109,6 +111,7 @@ class Home extends React.Component {
   }
 
 
+
   componentDidMount() {
     axios
 
@@ -187,60 +190,6 @@ class Home extends React.Component {
             alumnis={this.state.alumnis}
             handleLocalizeSelf={this.handleLocalize} 
         />
-        <AlumniList
-            handleCard = {this.handleCard}
-            searchValue={this.state.searchValue}
-            alumnis={this.state.alumnis}
-        />
-          {/* <AutoComplete
-            value={this.state.searchValue}
-            onSelect={this.handleSearchValue}
-            type="text"
-            id="header-search"
-            placeholder="Recherche un alumni proche de toi !"
-            name="searchValue"
-          />
-          <div>
-            <div>
-              <ul>
-
-                {this.state.searchValue &&
-                  filteredAlumnis.map((alumni) => {
-                    return (
-                      <div>
-                        <li key={alumni.id}>
-                          {alumni.firstName} {alumni.lastName}
-                          <br />
-                          <p>{alumni.industry}</p>
-                          <p>{alumni.work}</p>
-                          <p>{alumni.studies}</p>
-                          <p>{alumni.formattedAddress}</p>
-                          <button onClick={() => this.handleConversation(alumni._id)}>Chat</button>  
-                        </li>
-                      </div>
-                    );
-                  })}
-
-                {!this.state.searchValue &&
-                  this.state.alumnis.map((alumni) => {
-                    return (
-                      <div>
-                        <li key={alumni.id}>
-                          {alumni.firstName} {alumni.lastName}
-                          <br />
-                          <p>{alumni.industry}</p>
-                          <p>{alumni.work}</p>
-                          <p>{alumni.studies}</p>
-                          <p>{alumni.formattedAddress}</p>
-                          <button onClick={() => this.handleConversation(alumni._id)}>Chat</button>  
-                        </li>
-                      </div>
-                    );
-                  })}
-
-              </ul>
-            </div>
-          </div> */}
         </div>
 
         <Map
@@ -252,6 +201,11 @@ class Home extends React.Component {
             width: "100vw",
           }}
         >
+          <AlumniList
+            handleCard = {this.handleCard}
+            searchValue={this.state.searchValue}
+            alumnis={this.state.alumnis}
+        />
 
           {this.state.alumnis.map((alumni) => {
 
@@ -322,4 +276,3 @@ class Home extends React.Component {
 }
 
 export default withRouter(Home);
-
