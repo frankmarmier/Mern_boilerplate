@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-      "preinstall": "cd ./client && npm install && npm run build && cp -r /build ../server/public/ && cd .. && cd ./server && npm install && cd ..",
+      "preinstall": "cd ./client && npm install && npm run build && cp -r ./build ../server/public/ && cd .. && cd ./server && npm install && cd ..",
 
     "start" : "cd ./server && npm run start"
   },
