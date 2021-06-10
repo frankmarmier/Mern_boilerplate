@@ -15,6 +15,11 @@
     overflow-y: auto;
     max-height: 75vh;
   }
+
+  .AluListUL.Item-container{
+    top: 50px;
+    height: 80vh;
+  }
   
   .Item-container .round-image {
     height: 150px;

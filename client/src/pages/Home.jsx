@@ -10,6 +10,7 @@ import ReactMapboxGl, {
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
+import AlumniList from "../components/AlumniList";
 import qpv from "../qpvDB.json";
 import QpvsData from "../qpv.json";
 import mapboxgl from 'mapbox-gl';
@@ -134,7 +135,19 @@ class Home extends React.Component {
     })
   }
 
-  
+  handleLocalize = () => {
+    axios.get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
+    .then(response => {
+
+      this.setState({
+        searchValue: response.data.city,
+        cityCenter: [Number(response.data.loc.split(",")[1]), Number(response.data.loc.split(",")[0])]
+      })
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  }
 
 
 
@@ -163,8 +176,16 @@ class Home extends React.Component {
     return (
       <div>
         <div>
-          <SearchBar searchValue= {this.state.searchValue} handleSearch={this.handleSearchValue} alumnis={this.state.alumnis}/>
-
+        <SearchBar
+            searchValue={this.state.searchValue}
+            handleSearch={this.handleSearchValue}
+            alumnis={this.state.alumnis}
+            handleLocalizeSelf={this.handleLocalize} 
+        />
+        <AlumniList
+            searchValue={this.state.searchValue}
+            alumnis={this.state.alumnis}
+        />
           {/* <AutoComplete
             value={this.state.searchValue}
             onSelect={this.handleSearchValue}

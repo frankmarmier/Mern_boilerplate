@@ -68,7 +68,7 @@ class AutocompletePlace extends Component {
   render() {
     const { results, isLoading } = this.state;
     return (
-      <div className="AutocompletePlace w-100 d-flex justify-content-center mt-5 mb-5">
+      <div className="AutocompletePlace mt-5 ">
         <input
           className="LocationAutoComplete mt-2 search bar"
           type="text"
