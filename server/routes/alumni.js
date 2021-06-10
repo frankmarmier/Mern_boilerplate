@@ -11,7 +11,7 @@ router.get("/", (req, res, next) => {
         res.status(200).json(alumniResults);
     })
     .catch((error) => {
-        console.log(error);
+
         res.status(500).json(error);
     })
 })
@@ -21,7 +21,7 @@ router.get("/:id", (req, res, next) => {
 
     AlumniModel.findById(req.params.id)
     .then((foundAlumni) => {
-        console.log(foundAlumni);
+
         res.status(200).json(foundAlumni);
     })
     .catch((error) => {

@@ -80,7 +80,7 @@ io.on('connection', (socket) => { /* socket object may be used to send specific 
   });
 
   socket.on('send-notification', notification => {
-    console.log(notification)
+
     io.emit('notification', notification);
   });
 
