@@ -293,7 +293,7 @@ class Home extends React.Component {
                 />
               </Marker>
             //}
-            //</div></Cluster>
+            //</Cluster>
             );
           })}
           {this.state.clickedAlumni && (
