@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "../styles/LocationAutoComplete.css";
+import "../styles/SearchBar.css";
 
 /*
  *  Thanks to @mc100s for this component
@@ -67,9 +68,9 @@ class AutocompletePlace extends Component {
   render() {
     const { results, isLoading } = this.state;
     return (
-      <div className="AutocompletePlace w-100">
+      <div className="AutocompletePlace mt-5 ">
         <input
-          className="w-100 mt-2"
+          className="LocationAutoComplete mt-2 search bar"
           type="text"
           value={this.props.defaultValue || this.state.search}
           onChange={this.handleSearchChange}

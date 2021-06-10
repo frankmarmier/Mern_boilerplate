@@ -33,15 +33,6 @@ class Home extends React.Component {
     isAdress: false,
   };
 
-  // componentDidMount() {
-  //   axios.get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
-  //   .then(response => {
-  //     console.log("HOME", response.data);
-  //   })
-  //   .catch(e => {
-  //     console.log(e);
-  //   });
-  // }
 
   handleSearchValue = (place) => {
     if (place.place_type[0] === "place") {
@@ -51,8 +42,7 @@ class Home extends React.Component {
           .replace(/[\u0300-\u036f]/g, ""),
         cityCenter: place.center,
       });
-      // console.log(place.text);
-      // console.log(cityCenter + "isCity");
+
     }
     place.context.map((param, i) => {
       if (param.id.includes("place")) {
@@ -64,10 +54,24 @@ class Home extends React.Component {
 
           cityCenter: place.center,
         });
-        // console.log(cityCenter + "isAdress");
+     
       }
     });
   };
+
+  handleLocalize = () => {
+    axios.get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
+    .then(response => {
+
+      this.setState({
+        searchValue: response.data.city,
+        cityCenter: [Number(response.data.loc.split(",")[1]), Number(response.data.loc.split(",")[0])]
+      })
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  }
 
   handleClose = () => {
     this.setState({ clickedAlumni: null });
@@ -120,6 +124,8 @@ class Home extends React.Component {
       });
   };
 
+
+
   render() {
     if (this.state.loading) {
       return <div>Loading...</div>;
@@ -140,7 +146,10 @@ class Home extends React.Component {
             searchValue={this.state.searchValue}
             handleSearch={this.handleSearchValue}
             alumnis={this.state.alumnis}
+  handleLocalizeSelf={this.handleLocalize} 
+}
           />
+
 
           {/* <AutoComplete
             value={this.state.searchValue}
@@ -198,6 +207,7 @@ class Home extends React.Component {
               ? this.state.cityCenter
               : [2.333333, 48.866667]
           }
+
           zoom={[10]}
           style="mapbox://styles/mapbox/streets-v9"
           containerStyle={{

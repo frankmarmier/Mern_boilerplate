@@ -8,12 +8,15 @@ export class MessagesPannel extends Component {
         if (this.state.input_value && this.state.input_value !== '') {
             this.props.onSendMessage(this.props.channel._id, this.state.input_value);
             this.setState({ input_value: '' });
+            this.props.sendNotif(this.props.channel._id, id)
         }
 
 
     }
-    handleInput = e => {
+    handleInput = (e) => {
         this.setState({ input_value: e.target.value });
+     
+     
     }
     render() {
         const { context } = this.props;

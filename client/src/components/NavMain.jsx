@@ -17,7 +17,7 @@ export class NavMain extends Component {
       this.setState({
            buttonColor: this.generateRGBColor(),
       })
- }, 1000);
+ }, 200);
   }
 
   generateRGBColor(){
@@ -61,7 +61,7 @@ export class NavMain extends Component {
 
         </NavLink>
         {!this.props.notif && context.isLoggedIn && <NavLink to="/chat" className="alert-message green"><i className=" fas fa-sms"></i> Go to chatroom</NavLink>}
-      { this.props.notif && <NavLink to="/chat"  style={{color: this.state.buttonColor}} onClick={this.handleClick} className="alert-message green"><i className=" fas fa-sms"></i> Message from {this.props.senderName}</NavLink>}
+      { this.props.notif && <NavLink to="/chat"  style={{color: this.state.buttonColor}} onClick={this.handleClick} className="alert-message green"><i className=" fas fa-sms"></i> {this.props.text} from {this.props.senderName}</NavLink>}
       </div>
       <ul className="nav-list">
         {context.isLoggedIn && (

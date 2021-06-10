@@ -19,7 +19,8 @@ export class App extends Component {
     alumni: null,
     users: null,
     currentUser: null,
-    senderName: null
+    senderName: null,
+    text: ""
   }
   socket;
 
@@ -46,7 +47,8 @@ export class App extends Component {
 
       this.setState({
         notif: notification.alumni_id === user._id,
-        senderName: notification.alumni_name 
+        senderName: notification.alumni_name,
+        text: notification.notif
       })
 
      
@@ -55,9 +57,12 @@ export class App extends Component {
   }
   
   handleNotification = (alumni_id, alumni_name) => {
-    console.log("APP", alumni_id)
-    this.socket.emit('send-notification', { alumni_id, notif: "1new message", alumni_name})
+    this.socket.emit('send-notification', { alumni_id, notif: "New conversation", alumni_name})
 
+  }
+
+  handleMessageNotif = (alumni_id, alumni_name) => {
+    this.socket.emit('send-notification', { alumni_id, notif: "New message", alumni_name})
   }
 
   setNotifToFalse = () => {
@@ -72,13 +77,13 @@ export class App extends Component {
     return (
       <div className="App">
       
-      <NavMain setNotifToFalse={this.setNotifToFalse} notif={this.state.notif} senderName={this.state.senderName}/>
+      <NavMain text={this.state.text} setNotifToFalse={this.setNotifToFalse} notif={this.state.notif} senderName={this.state.senderName}/>
       <Switch>
         <Route exact path="/" ><Home handleNotification={this.handleNotification}/></Route>
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/profile/settings" component={FormProfile} />
-        <Route exact path="/chat" component={ChatMessage} ><ChatMessage  alumni = {this.state.alumni} users={this.state.users}/></Route>
+        <Route exact path="/chat" component={ChatMessage} ><ChatMessage sendMessageNotif={this.handleMessageNotif}  alumni = {this.state.alumni} users={this.state.users}/></Route>
         <ProtectedRoute exact path="/profile" component={Profile} />
       </Switch>
     </div>
