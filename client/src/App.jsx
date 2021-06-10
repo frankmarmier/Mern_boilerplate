@@ -20,7 +20,8 @@ export class App extends Component {
     users: null,
     currentUser: null,
     senderName: null,
-    text: ""
+    text: "",
+    aboutDisplay: false
   }
   socket;
 
@@ -71,15 +72,27 @@ export class App extends Component {
     })
   }
 
+  handleAboutDisplay = () => {
+    this.setState({
+      aboutDisplay: true
+    })
+  }
+
+  closeAboutDisplay = () => {
+    this.setState({
+      aboutDisplay: false
+    })
+  }
+
   render() {
 
 
     return (
       <div className="App">
       
-      <NavMain text={this.state.text} setNotifToFalse={this.setNotifToFalse} notif={this.state.notif} senderName={this.state.senderName}/>
+      <NavMain handleAbout={this.handleAboutDisplay} text={this.state.text} setNotifToFalse={this.setNotifToFalse} notif={this.state.notif} senderName={this.state.senderName}/>
       <Switch>
-        <Route exact path="/" ><Home handleNotification={this.handleNotification}/></Route>
+        <Route exact path="/" ><Home closeAbout ={this.closeAboutDisplay}  handleAbout={this.state.aboutDisplay} handleNotification={this.handleNotification}/></Route>
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/profile/settings" component={FormProfile} />

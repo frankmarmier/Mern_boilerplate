@@ -192,6 +192,17 @@ class Home extends React.Component {
         />
         </div>
 
+        {this.props.handleAbout && <div >
+          
+            <div className="d-flex justify-content-center">
+            <div className="About-container p-5 mb-5 " style={{width:"800px"}}>  
+            <div onClick={() => this.props.closeAbout()} className="w-100 d-flex justify-content-end mb-2 green"><i style={{cursor: "pointer", border: "1px solid", padding: "6px", borderRadius: "50%"}} className="fas fa-times"></i></div>
+            <p>Empower the youth from disadvantage area with a map of professionnals coming from the same location. As a user you can access a list/map of professionals near your/an adress/neighborhood. 
+            </p>
+            </div>
+            </div>
+          </div>}
+
         <Map
           center={ this.state.cityCenter ? this.state.cityCenter :[2.333333, 48.866667]}
           zoom={[10]}
@@ -261,6 +272,8 @@ class Home extends React.Component {
               </Marker>
             );
           })}
+
+     
 
           {this.state.clickedAlumni && 
           <AlumniDisplay
