@@ -16,12 +16,19 @@
     max-height: 75vh;
   }
 
+  .About-container {
+    box-shadow: 0 0 50px lightgrey;
+    border-radius: 20px;
+    background-color: white;
+
+  }
+
   .AluListUL {
     left: 8px
   }
 
   .AluListUL.Item-container{
-    top: 222px;
+    margin:50px;
     height: 80vh;
   }
   

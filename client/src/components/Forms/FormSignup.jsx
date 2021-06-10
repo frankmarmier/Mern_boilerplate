@@ -7,6 +7,7 @@ import qpv from "../../qpvDB.json";
 import "../../styles/Form.css";
 import UploadWidget from "../UploadWidget";
 import ImageSignUp from "../../images/sign-in.jpg"
+import ImageStandard from "../../../src/images/user-circle-solid.png"
 
 class FormSignup extends Component {
   state = {
@@ -21,7 +22,7 @@ class FormSignup extends Component {
     codeDept: "",
 
     image:
-      "https://vignette.wikia.nocookie.net/simpsons/images/1/14/Ralph_Wiggum.png/revision/latest/top-crop/width/360/height/360?cb=20100704163100",
+      ImageStandard,
   };
 
   imageRef = React.createRef();

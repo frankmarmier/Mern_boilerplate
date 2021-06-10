@@ -62,6 +62,8 @@ export class NavMain extends Component {
         </NavLink>
         {!this.props.notif && context.isLoggedIn && <NavLink to="/chat" className="alert-message green"><i className=" fas fa-sms"></i> Go to chatroom</NavLink>}
       { this.props.notif && <NavLink to="/chat"  style={{color: this.state.buttonColor}} onClick={this.handleClick} className="alert-message green"><i className=" fas fa-sms"></i> {this.props.text} from {this.props.senderName}</NavLink>}
+      
+      <div onClick={() => this.props.handleAbout()}><p style={{cursor: 'pointer'}} className="green ml-3">About</p></div>
       </div>
       <ul className="nav-list">
         {context.isLoggedIn && (
@@ -76,6 +78,7 @@ export class NavMain extends Component {
             <li>
               <p onClick={handleLogout}><i className="green fas fa-sign-out-alt"></i></p>
             </li>
+            
           </React.Fragment>
         )}
         {!context.isLoggedIn && (
