@@ -24,7 +24,7 @@ class SearchBar extends React.Component {
           name="searchValue"
         />
 
-        <ul>
+        {/* <ul>
 
 
 
@@ -60,7 +60,7 @@ class SearchBar extends React.Component {
             );
         })}
 
-        </ul>
+        </ul> */}
         
     </div>
   )
