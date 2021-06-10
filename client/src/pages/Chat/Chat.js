@@ -104,6 +104,20 @@ export class Chat extends Component {
    
     }
 
+    sendNotif = (channel_id, user_id) => {
+
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/chat/conversation/notif`, { channel_id, user_id }, {withCredentials: true})
+        .then((response) => {
+
+            let alumni_id = response.data.response._id
+            let alumni_name = response.data.response.firstName
+            let alumni_mail= response.data.response.email
+
+            this.props.handleMessageNotif(alumni_id, alumni_name)
+        })
+        .catch((error) => console.log(error))
+    }
+
 
     render() {
       
@@ -111,7 +125,7 @@ export class Chat extends Component {
             <div className="d-flex mt-5" style={{display: 'flex', height: "80vh", width: "80vw"}}>
                 
                 <ChannelList channels={this.state.channels} onSelectChannel={this.handleChannelSelect} />
-                <MessagesPannel onSendMessage={this.handleSendMessage} channel={this.state.channel} olderMessages={this.state.olderMessages}/>
+                <MessagesPannel sendNotif={this.sendNotif} onSendMessage={this.handleSendMessage} channel={this.state.channel} olderMessages={this.state.olderMessages}/>
             </div>
         )
     }

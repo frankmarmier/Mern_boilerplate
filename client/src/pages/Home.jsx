@@ -20,15 +20,10 @@ import AutoComplete from "../components/AutoComplete";
 
 
 
-// console.log(process.env.REACT_APP_MAPBOX_TOKEN)
+
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });
-
-// eslint-disable-next-line import/no-webpack-loader-syntax
-mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
-
-
 
 class Home extends React.Component {
   state = {
@@ -40,25 +35,24 @@ class Home extends React.Component {
     clickedAlumni: null,
     cityCenter: null,
     isAdress: false,
-    cluster: false,
     
-  };
-
-  clusterMarker = (coordinates) => (
-    <Marker coordinates={coordinates} >
-      C
-    </Marker>
-  );
-
-  handleSearchValue = (place) => {
-    console.log(place);
-    console.log(place.context.length);
-    console.log(place.center);
-    console.log(place.center[1]);
-
 
 
   };
+
+   // componentDidMount() {
+  //   axios.get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
+  //   .then(response => {
+  //     console.log("HOME", response.data);
+  //   })
+  //   .catch(e => {
+  //     console.log(e);
+  //   });
+  // }
+
+  // eslint-disable-next-line import/no-webpack-loader-syntax
+  mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
+ 
 
   handleSearchValue = (place) => {
 
@@ -67,28 +61,26 @@ class Home extends React.Component {
         searchValue: place.text
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, ""),
-        cityCenter: place.center
+          cityCenter: place.center
       });
-      // console.log(place.text);
-      // console.log(cityCenter + "isCity");
+
     }
     place.context.map((param, i) => {
 
 
       if (param.id.includes("place")) {
-        this.setState({
-          isAdress: true,
+        this.setState({ isAdress: true,
           searchValue: place.context[i].text
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, ""),
-
+         
           cityCenter: place.center
         });
-        // console.log(cityCenter + "isAdress");
+     
       }
     });
 
-
+   
   };
 
 
@@ -114,7 +106,7 @@ class Home extends React.Component {
   componentDidMount() {
     axios
 
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/alumni`, { withCredentials: true })
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/alumni`, {withCredentials: true})
 
       .then((usersResponse) => {
         this.setState({
@@ -129,29 +121,20 @@ class Home extends React.Component {
           loading: false,
         });
       });
-
-    //A mettre en fonction, se lancer sur un click, BUT : localiser grâce à l'adresse IP
-    //axios
-    //   .get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
-    //   .then(response => {
-    //     console.log("HOME", response.data);
-    //   })
-    //   .catch(e => {
-    //     console.log(e);
-    //   });
-
   }
+
 
 
   handleConversation = (alumni_id) => {
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/chat/conversation`, { alumni_id }, { withCredentials: true })
-      .then((response) => {
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/chat/conversation`, {alumni_id}, {withCredentials: true})
+    .then((response) => {
 
-        this.props.handleNotification(alumni_id, response.data.alumni_name)
-        this.props.history.push('/chat')
-      })
+      this.props.handleNotification(alumni_id, response.data.alumni_name)
+      this.props.history.push('/chat')
+    })
   }
 
+  
 
 
 
@@ -177,11 +160,10 @@ class Home extends React.Component {
 
 
 
-
     return (
       <div>
         <div>
-          <SearchBar searchValue={this.state.searchValue} handleSearch={this.handleSearchValue} alumnis={this.state.alumnis} />
+          <SearchBar searchValue= {this.state.searchValue} handleSearch={this.handleSearchValue} alumnis={this.state.alumnis}/>
 
           {/* <AutoComplete
             value={this.state.searchValue}
@@ -235,7 +217,7 @@ class Home extends React.Component {
         </div>
 
         <Map
-          center={this.state.cityCenter ? this.state.cityCenter : [2.333333, 48.866667]}
+          center={ this.state.cityCenter ? this.state.cityCenter :[2.333333, 48.866667]}
           zoom={[10]}
           style="mapbox://styles/mapbox/streets-v9"
           containerStyle={{
@@ -244,12 +226,9 @@ class Home extends React.Component {
           }}
         >
 
-
-          {/* {console.log(cityCenter)} */}
           {this.state.alumnis.map((alumni) => {
-            console.log(alumni.locationUser.coordinates[1]);
-            console.log(alumni.locationUser.coordinates[0]);
-            console.log("here")
+
+
             return !alumni.locationUser.coordinates[1] ||
               !alumni.locationUser.coordinates[0] ? (
 
@@ -273,10 +252,6 @@ class Home extends React.Component {
                 />
               </Marker>
             ) : (
-
-              //<Cluster ClusterMarkerFactory={this.clusterMarker}>
-              //{
-              //
               <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
@@ -284,46 +259,34 @@ class Home extends React.Component {
                 offset={[
                   Math.floor(Math.random() * (120 - 2 + 1)) + 2, Math.floor(Math.random() * (120 - 2 + 1)) + 2
                 ]}
-                //style={{
-                  //transform: `translate(${Math.floor(Math.random() * (30 - 2 + 1)) + 2}, ${Math.floor(Math.random() * (30 - 2 + 1)) + 2})`
-                //</Map>}}
                 coordinates={[
                   alumni.locationUser.coordinates[1],
                   alumni.locationUser.coordinates[0],
                 ]}
                 anchor="bottom"
-              > 
+              >
                 <img
                   src={alumni.image}
                   id={alumni._id}
-                  
                   // onClick={(event) => this.handleClick(event)}
                   alt="alumni"
                   style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 50,                 
+                    width: 70,
+                    height: 70,
+                    borderRadius: 50,   
                     // markerOffset:2em;
                   }}
                 />
               </Marker>
-              //}
-              //</Cluster>
             );
           })}
-          {this.state.clickedAlumni && (
-            <AlumniDisplay
-              item={this.state.clickedAlumni}
-              handleClose={this.handleClose}
-            />
-          )}
 
-          {this.state.clickedAlumni &&
-            <AlumniDisplay
-              handleConversation={this.handleConversation}
-              item={this.state.clickedAlumni}
-              handleClose={this.handleClose}
-            />}
+          {this.state.clickedAlumni && 
+          <AlumniDisplay
+            handleConversation={this.handleConversation}
+            item={this.state.clickedAlumni}
+            handleClose={this.handleClose}
+          />}
 
         </Map>
       </div>

@@ -14,7 +14,7 @@ class SearchBar extends React.Component {
         return this.props.searchValue && alumni.city === this.props.searchValue;
       });
     return (
-    <div>
+    <div >
         <AutoComplete
           value={this.props.searchValue}
           onSelect={this.handleSearch}
@@ -22,6 +22,8 @@ class SearchBar extends React.Component {
           id="header-search"
           placeholder="Recherche un alumni proche de toi !"
           name="searchValue"
+          
+         
         />
 
         <ul>
