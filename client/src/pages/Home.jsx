@@ -260,8 +260,8 @@ class Home extends React.Component {
                   Math.floor(Math.random() * (120 - 2 + 1)) + 2, Math.floor(Math.random() * (120 - 2 + 1)) + 2
                 ]}
                 coordinates={[
-                  alumni.locationUser.coordinates[1],
                   alumni.locationUser.coordinates[0],
+                  alumni.locationUser.coordinates[1],
                 ]}
                 anchor="bottom"
               >
