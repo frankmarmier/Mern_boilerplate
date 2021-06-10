@@ -35,7 +35,7 @@ class SearchBar extends React.Component {
     height: "50px"}}>🔎 Where am I</button>
         </div>
 
-        <ul>
+        {/* <ul>
 
 
 
@@ -71,7 +71,7 @@ class SearchBar extends React.Component {
             );
         })}
 
-        </ul>
+        </ul> */}
         
     </div>
   )

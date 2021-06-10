@@ -8,6 +8,7 @@ import ReactMapboxGl, {
 import "mapbox-gl/dist/mapbox-gl.css";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
+import AlumniList from "../components/AlumniList";
 import qpv from "../qpvDB.json";
 import QpvsData from "../qpv.json";
 
@@ -15,7 +16,6 @@ import { withRouter } from "react-router-dom";
 
 import AlumniDisplay from "../components/AlumniDisplay";
 import AutoComplete from "../components/AutoComplete";
-
 
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
@@ -31,41 +31,32 @@ class Home extends React.Component {
     clickedAlumni: null,
     cityCenter: null,
     isAdress: false,
-  
-
-
   };
 
 
- 
-
   handleSearchValue = (place) => {
-
     if (place.place_type[0] === "place") {
       this.setState({
         searchValue: place.text
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, ""),
-          cityCenter: place.center
+        cityCenter: place.center,
       });
 
     }
     place.context.map((param, i) => {
-
-
       if (param.id.includes("place")) {
-        this.setState({ isAdress: true,
+        this.setState({
+          isAdress: true,
           searchValue: place.context[i].text
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, ""),
-         
-          cityCenter: place.center
+
+          cityCenter: place.center,
         });
      
       }
     });
-
-   
   };
 
   handleLocalize = () => {
@@ -82,7 +73,6 @@ class Home extends React.Component {
     });
   }
 
-
   handleClose = () => {
     this.setState({ clickedAlumni: null });
   };
@@ -93,9 +83,7 @@ class Home extends React.Component {
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni/" + imgId)
       .then((foundAlumni) => {
-
         this.setState({ clickedAlumni: foundAlumni.data });
-
       })
       .catch((error) => {
         console.log(error);
@@ -105,14 +93,15 @@ class Home extends React.Component {
   componentDidMount() {
     axios
 
-      .get(`${process.env.REACT_APP_BACKEND_URL}/api/alumni`, {withCredentials: true})
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/alumni`, {
+        withCredentials: true,
+      })
 
       .then((usersResponse) => {
         this.setState({
           alumnis: usersResponse.data,
           loading: false,
         });
-
       })
       .catch((error) => {
         console.log(error);
@@ -122,27 +111,22 @@ class Home extends React.Component {
       });
   }
 
-
-
   handleConversation = (alumni_id) => {
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/chat/conversation`, {alumni_id}, {withCredentials: true})
-    .then((response) => {
-
-      this.props.handleNotification(alumni_id, response.data.alumni_name)
-      this.props.history.push('/chat')
-    })
-  }
-
-
-
-
-
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/chat/conversation`,
+        { alumni_id },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        this.props.handleNotification(alumni_id, response.data.alumni_name);
+        this.props.history.push("/chat");
+      });
+  };
 
 
 
   render() {
-
-
     if (this.state.loading) {
       return <div>Loading...</div>;
     }
@@ -151,19 +135,21 @@ class Home extends React.Component {
       return <div>Nous n'avons pas trouvé de profil </div>;
     }
 
-
-
     const filteredAlumnis = this.state.alumnis.filter((alumni) => {
       return this.state.searchValue && alumni.city === this.state.searchValue;
     });
 
-
-
-
     return (
       <div>
         <div>
-          <SearchBar handleLocalizeSelf={this.handleLocalize} searchValue= {this.state.searchValue} handleSearch={this.handleSearchValue} alumnis={this.state.alumnis}/>
+          <SearchBar
+            searchValue={this.state.searchValue}
+            handleSearch={this.handleSearchValue}
+            alumnis={this.state.alumnis}
+  handleLocalizeSelf={this.handleLocalize} 
+}
+          />
+
 
           {/* <AutoComplete
             value={this.state.searchValue}
@@ -174,14 +160,13 @@ class Home extends React.Component {
             name="searchValue"
           />
           <div>
-            <div>
-              <ul>
-
+            <div className="Item-container">
+              <ul >
                 {this.state.searchValue &&
                   filteredAlumnis.map((alumni) => {
                     return (
                       <div>
-                        <li key={alumni.id}>
+                        <li key={alumni.id} className="CardItem">
                           {alumni.firstName} {alumni.lastName}
                           <br />
                           <p>{alumni.industry}</p>
@@ -198,7 +183,7 @@ class Home extends React.Component {
                   this.state.alumnis.map((alumni) => {
                     return (
                       <div>
-                        <li key={alumni.id}>
+                        <li key={alumni.id} className="CardItem">
                           {alumni.firstName} {alumni.lastName}
                           <br />
                           <p>{alumni.industry}</p>
@@ -217,7 +202,12 @@ class Home extends React.Component {
         </div>
 
         <Map
-          center={ this.state.cityCenter ? this.state.cityCenter : [2.333333, 48.866667]}
+          center={
+            this.state.cityCenter
+              ? this.state.cityCenter
+              : [2.333333, 48.866667]
+          }
+
           zoom={[10]}
           style="mapbox://styles/mapbox/streets-v9"
           containerStyle={{
@@ -225,13 +215,14 @@ class Home extends React.Component {
             width: "100vw",
           }}
         >
+          <AlumniList
+            searchValue={this.state.searchValue}
+            alumnis={this.state.alumnis}
+          />
 
           {this.state.alumnis.map((alumni) => {
-
-
             return !alumni.locationUser.coordinates[0] ||
               !alumni.locationUser.coordinates[1] ? (
-
               <Marker
                 key={alumni._id}
                 onClick={(event) => this.handleClick(event)}
@@ -277,13 +268,13 @@ class Home extends React.Component {
             );
           })}
 
-          {this.state.clickedAlumni && 
-          <AlumniDisplay
-            handleConversation={this.handleConversation}
-            item={this.state.clickedAlumni}
-            handleClose={this.handleClose}
-          />}
-
+          {this.state.clickedAlumni && (
+            <AlumniDisplay
+              handleConversation={this.handleConversation}
+              item={this.state.clickedAlumni}
+              handleClose={this.handleClose}
+            />
+          )}
         </Map>
       </div>
     );
