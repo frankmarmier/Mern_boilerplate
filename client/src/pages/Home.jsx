@@ -78,17 +78,25 @@ class Home extends React.Component {
   };
 
   handleClick = (event) => {
-    const imgId = event.target.id;
+    this.handleClickCard(event.target.id )
+  };
+
+  handleClickCard = (id) => {
+
 
     axios
-      .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni/" + imgId)
+      .get(process.env.REACT_APP_BACKEND_URL + "/api/alumni/" + id)
       .then((foundAlumni) => {
         this.setState({ clickedAlumni: foundAlumni.data });
       })
       .catch((error) => {
         console.log(error);
       });
-  };
+  }
+
+  handleCard = (id) => {
+    this.handleClickCard(id)
+  }
 
   componentDidMount() {
     axios
@@ -146,8 +154,9 @@ class Home extends React.Component {
             searchValue={this.state.searchValue}
             handleSearch={this.handleSearchValue}
             alumnis={this.state.alumnis}
-  handleLocalizeSelf={this.handleLocalize} 
-}
+            handleLocalizeSelf={this.handleLocalize} 
+            
+
           />
 
 
@@ -216,6 +225,7 @@ class Home extends React.Component {
           }}
         >
           <AlumniList
+            handleCard = {this.handleCard}
             searchValue={this.state.searchValue}
             alumnis={this.state.alumnis}
           />
