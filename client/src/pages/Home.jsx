@@ -11,6 +11,7 @@ import axios from "axios";
 import SearchBar from "../components/SearchBar";
 import qpv from "../qpvDB.json";
 import QpvsData from "../qpv.json";
+import mapboxgl from 'mapbox-gl';
 
 import { withRouter } from "react-router-dom";
 
