@@ -25,6 +25,7 @@ app.use(express.urlencoded({ extended: false })); // Access data sent as applica
 
 app.use(express.static(path.join(__dirname, "public")));
 
+
 app.use(
   session({
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // Persist session in database.
@@ -57,14 +58,20 @@ const alumniRouter = require("./routes/alumni");
 app.use("/api/alumni", alumniRouter);
 
 // 404 Middleware
-app.use((req, res, next) => {
-
-  const error = new Error("Ressource not found.");
-  error.status = 404;
-  next(error);
-
+app.use("/api/*",(req, res, next) => {
+  const err = new Error("Ressource not found.");
+  err.status = 404;
+  next(err);
 });
 
+// ...routes 
+
+if (process.env.NODE_ENV === "production") {
+  app.use("*", (req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(path.join(__dirname, "public/index.html"));
+  });
+}
 // Error handler middleware
 // If you pass an argument to your next function in any of your routes or middlewares
 // You will end up in this middleware

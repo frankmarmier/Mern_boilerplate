@@ -7,13 +7,15 @@
     "bootstrap": "^4.6.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "mapbox-gl": "^2.3.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^16.13.1",
     "react-mapbox-gl": "^5.1.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^4.0.3",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "worker-loader": "^3.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

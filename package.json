@@ -1,1 +1,22 @@
-{}
+{
+  "name": "TechYourChance",
+  "description": "## Intro",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+      "preinstall": "cd ./client && npm install && npm run build && cp -r ./build ../server/public/ && cd .. && cd ./server && npm install && cd ..",
+
+    "start" : "cd ./server && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StephaneMM/TechYourChance.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StephaneMM/TechYourChance/issues"
+  },
+  "homepage": "https://github.com/StephaneMM/TechYourChance#readme"
+}
