@@ -7,6 +7,10 @@ class SearchBar extends React.Component {
         this.props.handleSearch(place)
     }
 
+    handleLocalize = (e) => {
+      this.props.handleLocalizeSelf(e)
+    }
+
 
   render() {  
     const filteredAlumnis = this.props.alumnis.filter((alumni) => {
@@ -15,16 +19,21 @@ class SearchBar extends React.Component {
       });
     return (
     <div >
-        <AutoComplete
-          value={this.props.searchValue}
-          onSelect={this.handleSearch}
-          type="text"
-          id="header-search"
-          placeholder="Recherche un alumni proche de toi !"
-          name="searchValue"
+      <div className="d-flex justify-content-center align-items-center">
+          <AutoComplete
+            value={this.props.searchValue}
+            onSelect={this.handleSearch}
+            type="text"
+            id="header-search"
+            placeholder="Recherche un alumni proche de toi !"
+            name="searchValue"
+            
           
-         
-        />
+          />
+
+          <button onClick={this.handleLocalize} className="primary-button mt-5 ml-2" style={{width: "250px",
+    height: "50px"}}>🔎 Where am I</button>
+        </div>
 
         <ul>
 

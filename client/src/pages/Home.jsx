@@ -36,15 +36,6 @@ class Home extends React.Component {
 
   };
 
-   // componentDidMount() {
-  //   axios.get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
-  //   .then(response => {
-  //     console.log("HOME", response.data);
-  //   })
-  //   .catch(e => {
-  //     console.log(e);
-  //   });
-  // }
 
  
 
@@ -76,6 +67,20 @@ class Home extends React.Component {
 
    
   };
+
+  handleLocalize = () => {
+    axios.get(`https://ipinfo.io/json?token=3d2f876d8b1c25`)
+    .then(response => {
+
+      this.setState({
+        searchValue: response.data.city,
+        cityCenter: [Number(response.data.loc.split(",")[1]), Number(response.data.loc.split(",")[0])]
+      })
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  }
 
 
   handleClose = () => {
@@ -128,7 +133,7 @@ class Home extends React.Component {
     })
   }
 
-  
+
 
 
 
@@ -136,6 +141,7 @@ class Home extends React.Component {
 
 
   render() {
+
 
     if (this.state.loading) {
       return <div>Loading...</div>;
@@ -157,7 +163,7 @@ class Home extends React.Component {
     return (
       <div>
         <div>
-          <SearchBar searchValue= {this.state.searchValue} handleSearch={this.handleSearchValue} alumnis={this.state.alumnis}/>
+          <SearchBar handleLocalizeSelf={this.handleLocalize} searchValue= {this.state.searchValue} handleSearch={this.handleSearchValue} alumnis={this.state.alumnis}/>
 
           {/* <AutoComplete
             value={this.state.searchValue}
@@ -211,7 +217,7 @@ class Home extends React.Component {
         </div>
 
         <Map
-          center={ this.state.cityCenter ? this.state.cityCenter :[2.333333, 48.866667]}
+          center={ this.state.cityCenter ? this.state.cityCenter : [2.333333, 48.866667]}
           zoom={[10]}
           style="mapbox://styles/mapbox/streets-v9"
           containerStyle={{
