@@ -18,9 +18,8 @@ import { withRouter } from "react-router-dom";
 
 import AlumniDisplay from "../components/AlumniDisplay";
 import AutoComplete from "../components/AutoComplete";
+import "../styles/global.css"
 
-
-// console.log(process.env.REACT_APP_MAPBOX_TOKEN)
 const Map = ReactMapboxGl({
   accessToken: process.env.REACT_APP_MAPBOX_TOKEN,
 });

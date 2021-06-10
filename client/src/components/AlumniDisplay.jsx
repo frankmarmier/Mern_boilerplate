@@ -14,7 +14,7 @@ const AlumniDisplay = ({handleConversation,  item, handleClose }) => {
 
 
   return (
-    <div className="Item-container">
+    <div className="Item-container" style={{right: '10px'}}>
       <p onClick={handleClose} className="close-link">
         <i className="fas fa-times"></i>
       </p>
