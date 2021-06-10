@@ -14,7 +14,7 @@ const AlumniDisplay = ({handleConversation,  item, handleClose }) => {
 
 
   return (
-    <div className="Item-container" style={{right: '10px'}}>
+    <div className="Item-container" style={{right: '10px', margin: '50px'}}>
       <p onClick={handleClose} className="close-link">
         <i className="fas fa-times"></i>
       </p>
@@ -30,7 +30,7 @@ const AlumniDisplay = ({handleConversation,  item, handleClose }) => {
         <h5 className="green mt-2 mb-3">👉 Presentation</h5>
         <p className="text-left">🤓 {item.intro}</p>
         <p>💼 {item.work}</p>
-        <p>🔗 {item.linkedin}</p>
+        <p><a href={item.linkedin}><i class='fab fa-linkedin'></i> {item.firstName} {item.lastName}</a></p>
       </div>}
       
     </div>
