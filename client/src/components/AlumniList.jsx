@@ -15,7 +15,7 @@ class AlumniList extends Component {
           {this.props.searchValue &&
             filteredAlumnis.map((alumni) => {
               return (
-                <div key={alumni._id}>
+                <div key={alumni._id} className="profilCard">
 
                 <li className="listedAlumni">
                   <p> {alumni.firstName} {alumni.lastName} | {alumni.industry} | <span style={{cursor: "pointer"}} onClick={() => {this.handleClick(alumni._id)}}>👁</span></p>
