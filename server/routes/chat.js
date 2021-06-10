@@ -14,6 +14,30 @@ router.get('/getChannels', (req, res) => {
 
 })
 
+router.post('/conversation/notif', (req,res) => {
+
+    Conversation.findById(req.body.channel_id).then((response) => {
+
+        if(response.users[0] !== req.body.user_id) {
+            User.findById(response.users[0]).then((response) => {
+                res.json({
+                    response
+                })
+            })
+        } else {
+            User.findById(response.users[0]).then((response) => {
+                res.json({
+                    response
+                })
+            })
+        }
+
+
+    })
+
+
+})
+
 router.post('/messages', (req, res, next) => {
     const {channel_id, text, senderName} = req.body
     const newMessage = {channel_id, text, senderName} 

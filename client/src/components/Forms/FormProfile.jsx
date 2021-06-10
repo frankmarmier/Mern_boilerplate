@@ -7,6 +7,7 @@ import { withRouter, Redirect, Link } from "react-router-dom";
 import UploadWidget from "../UploadWidget";
 import ImageEdit from "../../images/signedit.svg"
 
+
 export class FormProfile extends Component {
     state = {
         user: null,

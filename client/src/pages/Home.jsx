@@ -57,8 +57,7 @@ class Home extends React.Component {
           .replace(/[\u0300-\u036f]/g, ""),
           cityCenter: place.center
       });
-      // console.log(place.text);
-      // console.log(cityCenter + "isCity");
+
     }
     place.context.map((param, i) => {
 
@@ -71,7 +70,7 @@ class Home extends React.Component {
          
           cityCenter: place.center
         });
-        // console.log(cityCenter + "isAdress");
+     
       }
     });
 
@@ -128,6 +127,8 @@ class Home extends React.Component {
       this.props.history.push('/chat')
     })
   }
+
+  
 
 
 

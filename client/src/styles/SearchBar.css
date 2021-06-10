@@ -7,3 +7,23 @@
     white-space: nowrap;
     width: 1px;
 }
+
+.bar {
+    width: 500px;
+    padding: 18px;
+
+    min-width: 80px;
+    background: rgb(255, 255, 255);
+    border-radius: 4em;
+    appearance: none;
+    box-shadow: rgb(221 225 236 / 40%) 0px 5px 14px, rgb(221 225 236) 0px 2px 4px;
+    border: 1px solid transparent;
+    font-size: 1rem;
+    color: rgb(39, 56, 77);
+}
+
+.search{
+
+    justify-self: center;
+    text-align: center;
+}
