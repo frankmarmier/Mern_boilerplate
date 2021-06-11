@@ -22,6 +22,8 @@
     background-color: white;
 
   }
+/* _____New________ */
+
 
   .AluListUL {
     left: 8px
@@ -29,9 +31,72 @@
 
   .AluListUL.Item-container{
     margin:50px;
-    height: 80vh;
+    height: auto;
+    max-height: 80vh;
+    background-color: #3cad95;
+    padding: 5px 0px;
+
+  }
+
+
+.imgDiv img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+  .imgDiv{
+    border-radius: 25px;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    margin-right: 10px;
+    border: 1px solid #3cad95;
+    overflow: hidden;
+    box-shadow: 0 5px 9px 0 rgb(31 105 236 / 20%);
+  }
+
+  .listedAlumni span{
+    font-family: Oswald, sans-serif !important;
+  }
+  .listedAlumni i{
+    margin-right: 5px;
+  }
+
+  .alumniHood{
+    font-family: 'Open Sans',sans-serif !important;
+    font-style: italic;
+    color: rgb(61, 61, 61);
+  }
+
+  .profilCard{
+    display: flex;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    font-family: Lato;
+    font-size: 14px;
+    color: rgb(61, 61, 61);
+    padding: 8px 8px 8px 12px;
+    /* margin: 5px 0px */
+
+}
+.alumniWork {
+    font-family: 'Open Sans',sans-serif !important;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+  .profilCard:hover{
+      background-color:#ebebf1;
+      box-shadow: 0 5px 9px 0 rgb(31 105 236 / 20%);
+      border-top: 1px solid rgb(189, 189, 189);
+      border-bottom: 1px solid rgb(189, 189, 189);
   }
   
+
+/* _____Legacy________ */
+
   .Item-container .round-image {
     height: 150px;
     width: 150px;
