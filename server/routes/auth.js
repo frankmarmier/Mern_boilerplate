@@ -22,11 +22,11 @@ router.post("/signin", (req, res, next) => {
       }
 
       req.session.currentUser = {
-        role: "admin",
-        id: userDocument._id,
+        // role: "userDocument.role",  // if you need to handle roles
+        _id: userDocument._id,
       };
 
-      res.redirect("/api/auth/isLoggedIn");
+      res.redirect("/api/users/me");
     })
     .catch(next);
 });
@@ -44,26 +44,10 @@ router.post("/signup", (req, res, next) => {
       const newUser = { email, lastName, firstName, password: hashedPassword };
 
       User.create(newUser)
-        .then((newUserDocument) => {
-          /* Login on signup */
-          req.session.currentUser = newUserDocument._id;
-          res.redirect("/api/auth/isLoggedIn");
+        .then(() => {
+          res.sendStatus(201);
         })
         .catch(next);
-    })
-    .catch(next);
-});
-
-router.get("/isLoggedIn", (req, res, next) => {
-  if (!req.session.currentUser)
-    return res.status(401).json({ message: "Unauthorized" });
-
-  const id = req.session.currentUser;
-
-  User.findById(id)
-    .select("-password")
-    .then((userDocument) => {
-      res.status(200).json(userDocument);
     })
     .catch(next);
 });

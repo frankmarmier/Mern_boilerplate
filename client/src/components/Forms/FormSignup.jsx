@@ -21,8 +21,8 @@ class FormSignup extends Component {
 
     apiHandler
       .signup(this.state)
-      .then((data) => {
-        this.props.context.setUser(data);
+      .then(() => {
+        this.props.history.push("/signin");
       })
       .catch((error) => {
         console.log(error);
@@ -36,6 +36,7 @@ class FormSignup extends Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
+        <h2>Signup</h2>
         <label htmlFor="email">Email</label>
         <input
           onChange={this.handleChange}

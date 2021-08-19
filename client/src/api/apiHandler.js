@@ -32,7 +32,7 @@ const apiHandler = {
 
   isLoggedIn() {
     return service
-      .get("/api/auth/isLoggedIn")
+      .get("/api/users/me")
       .then((res) => res.data)
       .catch(errorHandler);
   },
